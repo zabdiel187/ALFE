@@ -5,9 +5,11 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 
 var sid = "AC7f51030bcb92ece1876939955575377c";
-var auth_Token = "02543a7f125ffa8e403f3c626e7134de";
+var auth_Token = "96055a7f15aa1f71a17cf8c1e9cb6c03";
 
 const twilio = require("twilio")(sid, auth_Token);
+const { MessagingResponse } = require("twilio").twiml;
+http = require("http");
 
 const db = mysql.createPool({
   host: "localhost",
@@ -31,7 +33,15 @@ app.get("/api/menu", (req, res) => {
   });
 });
 
+app.get("/api/orders", (req, res) => {
+  db.query("SELECT * FROM orders;", (err, results, fields) => {
+    if (err) throw err;
+    res.send(results);
+  });
+});
+
 app.post("/api/sendOrder", (req, res) => {
+  const pickupDate = req.body.pickupDate;
   const name = req.body.name;
   const number = req.body.number;
   const message = req.body.msg;
@@ -46,10 +56,67 @@ app.post("/api/sendOrder", (req, res) => {
     : "";
 
   const getOrder = (items) => {
-    const orders = items.map((item) => `${item.quantity}x ${item.name}`);
+    const orders = items.map(
+      (item) => "(" + `${item.quantity}x ${item.name}` + ")"
+    );
     return orders.join("\n");
   };
 
+  const getDate = (date) => {
+    const res = date.toString().substring(4, 15);
+    return res;
+  };
+
+  const getPickup = () => {
+    const res =
+      pickupDate.toString().substring(5, 10) +
+      "-" +
+      pickupDate.toString().substring(0, 4);
+    return res;
+  };
+  const sqlInsert =
+    "INSERT INTO orders(dateOrdered, customerName, customerNumber, cart, subtotal, pickupDate, isPaid, paymentType) VALUES (?,?,?,?,?,?,?,?)";
+  db.query(
+    sqlInsert,
+    [
+      getDate(new Date()),
+      name,
+      number,
+      getOrder(order),
+      subtotal,
+      getPickup(),
+      false,
+      payWith,
+    ],
+    (err, res) => {
+      if (err) {
+        console.log(err);
+      }
+    }
+  );
+
+  res.send(200);
+
+  console.log(
+    "***NEW ORDER***\n\n" +
+      name +
+      "(" +
+      number.toString().substring(0, 3) +
+      "-" +
+      number.toString().substring(3, 6) +
+      "-" +
+      number.toString().substring(6, 10) +
+      ")" +
+      " has placed an order of: \n\n" +
+      getOrder(order) +
+      "\n\nSUBTOTAL: $" +
+      subtotal +
+      " " +
+      payWith +
+      msg +
+      "\n\n***Accept Order? (yes/no)***"
+  );
+  /*
   twilio.messages
     .create({
       from: "+18667902738",
@@ -72,31 +139,36 @@ app.post("/api/sendOrder", (req, res) => {
         payWith +
         msg +
         "\n\n***Accept Order? (yes/no)***",
+
     })
     .then(console.log("text sent " + new Date()))
     .catch((err) => console.log(err));
+
+    */
 });
 
-exports.handler = (context, event, callback) => {
-  // Create a new messaging response object
-  const twiml = new Twilio.twiml.MessagingResponse();
+app.post("/api/updateOrders", (req, res) => {
+  const orderNum = req.body.orderNum;
+  const isPaid = req.body.isPaid;
 
-  // Access the incoming text content from `event.Body`
-  const incomingMessage = event.Body.toLowerCase();
+  db.query(
+    "UPDATE orders SET isPaid=(?)WHERE orderNum=(?)",
+    [isPaid, orderNum],
+    (err) => {
+      console.log("db" + isPaid);
+      if (err) {
+        console.log(err);
+      }
+    }
+  );
+  res.send(200);
+});
 
-  // Use any of the Node.js SDK methods, such as `message`, to compose a response
-  if (incomingMessage.includes("hello")) {
-    twiml.message("Hello, there!");
-  } else if (incomingMessage.includes("bye")) {
-    twiml.message("Goodbye!");
-  } else {
-    twiml.message("Not sure what you meant! Please say hello or bye!");
-  }
-
-  // Return the TwiML as the second argument to `callback`
-  // This will render the response as XML in reply to the webhook request
-  return callback(null, twiml);
-};
+app.post("/sms", (req, res) => {
+  const twiml = new MessagingResponse();
+  twiml.message("The Robots are coming! Head for the hills!");
+  res.type("text/xml").send(twiml.toString());
+});
 
 app.post("/api/register", (req, res) => {
   const firstName = req.body.first_Name;

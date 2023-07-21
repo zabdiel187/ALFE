@@ -2,11 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useStore } from "../stores/MenuStore";
 import Axios from "axios";
 import "./checkout.css";
+import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 const Checkout = () => {
   const order = useStore((state) => state.cart);
   const subtotal = useStore((state) => state.subtotal);
+  const pickupDate = useStore((state) => state.date);
   const clearCart = useStore((state) => state.clearCart);
   const deleteItem = useStore((state) => state.deleteItem);
   const incrementItem = useStore((state) => state.incrementItem);
@@ -19,6 +21,8 @@ const Checkout = () => {
   const [cash, setCash] = useState(false);
   const [zelle, setZelle] = useState(false);
 
+  const setDate = useStore((state) => state.setDate);
+  const date = useStore((state) => state.date);
   const clearDate = useStore((state) => state.clearDate);
 
   useEffect(() => {
@@ -49,28 +53,27 @@ const Checkout = () => {
   };
 
   const handleSubmit = () => {
-    if (zelle) {
-      Axios.post("http://localhost:3001/api/sendOrder", {
-        name: customerName,
-        number: customerNumber,
-        msg: customerMSG,
-        order: order,
-        subtotal: subtotal,
-        payWith: "Direct Deposit",
-      }).then(alert("Reservation sent."));
-    } else if (cash) {
-      Axios.post("http://localhost:3001/api/sendOrder", {
-        name: customerName,
-        number: customerNumber,
-        msg: customerMSG,
-        order: order,
-        subtotal: subtotal,
-        payWith: "Cash",
-      }).then(alert("Reservation sent."));
-    } else {
-      alert("Please select a payment method");
-    }
+    Axios.post("http://localhost:3001/api/sendOrder", {
+      pickupDate: pickupDate,
+      name: customerName,
+      number: customerNumber,
+      msg: customerMSG,
+      order: order,
+      subtotal: subtotal,
+      payWith: cash
+        ? "Cash"
+        : zelle
+        ? "Zelle"
+        : alert("Please select a payment method"),
+    }).then(
+      pickupDate === null
+        ? alert("Please select a pickup date")
+        : cash || zelle
+        ? alert("Reservation sent.")
+        : null
+    );
   };
+
   return (
     <div className="checkout">
       <div className="Info">
@@ -165,6 +168,21 @@ const Checkout = () => {
           </div>
         </div>
       </div>
+      <h4>Pickup Date:</h4>
+      <DatePicker
+        selected={date}
+        onChange={(date) => setDate(date)}
+        filterDate={(date) =>
+          date.getDay() !== 1 &&
+          date.getDay() !== 2 &&
+          date.getDay() !== 3 &&
+          date.getDay() !== 4 &&
+          date.getDay() !== 5
+        }
+        minDate={new Date()}
+        dateFormat="MM/dd/yyyy"
+        withPortal
+      />
       <h3>Subtotal: ${order.length > 0 ? Number(subtotal).toFixed(2) : 0}</h3>
       <button onClick={handleSubmit}>Submit reservation </button>
     </div>
