@@ -1,0 +1,71 @@
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.form input {
+  width: 300px;
+  margin: 10px;
+}
+
+.form button {
+  margin: 10px;
+}
+
+.newProduct {
+  background-color: white;
+  padding: 50px;
+  border: 1px solid white;
+  border-radius: 80px;
+  width: 80%;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  justify-content: space-around;
+  position: relative;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.discription_input {
+  width: 400px;
+  height: 200px;
+  margin-right: 20px;
+}
+
+.product input {
+  margin: 10px 5px;
+  width: 25%;
+}
+
+.item-container {
+  background-color: white;
+  display: flex;
+  flex-direction: row;
+  padding: 50px;
+  border: 1px solid white;
+  border-radius: 80px;
+  width: 80%;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  justify-content: space-around;
+  position: relative;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.default {
+  display: all;
+}
+
+.hidden {
+  display: none;
+}

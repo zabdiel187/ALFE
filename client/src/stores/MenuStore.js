@@ -4,6 +4,7 @@ import { persist, devtools } from "zustand/middleware";
 const MenuStore = (set, get) => ({
   cart: [],
   date: null,
+  cartQuantity: 0,
   subtotal: 0,
   isEmpty: true,
   error: "",
@@ -49,6 +50,12 @@ const MenuStore = (set, get) => ({
             false,
             "subtotal updated"
           );
+
+          set(
+            { cartQuantity: get().cartQuantity + newItem.quantity },
+            false,
+            "cart quantity updated"
+          );
         }
       });
 
@@ -64,6 +71,12 @@ const MenuStore = (set, get) => ({
           false,
           "subtotal updated"
         );
+
+        set(
+          { cartQuantity: get().cartQuantity + newItem.quantity },
+          false,
+          "cart quantity updated"
+        );
       }
     } catch (err) {
       set({ error: err.message, isLoading: false }, false, "Error");
@@ -71,8 +84,7 @@ const MenuStore = (set, get) => ({
   },
   clearCart: () => {
     try {
-      set({ cart: [] }, false, "cleared cart");
-      set({ subtotal: 0 }, false, "subtotal cleared");
+      set({ cart: [], subtotal: 0, cartQuantity: 0 }, false, "cleared cart");
     } catch (err) {
       set({ error: err.message, isLoading: false });
     }
@@ -86,6 +98,11 @@ const MenuStore = (set, get) => ({
       );
 
       set({ subtotal: get().subtotal - item.price }, false, "subtotal updated");
+      set(
+        { cartQuantity: get().cartQuantity - item.quantity },
+        false,
+        "cart quantity updated"
+      );
     } catch (err) {
       set({ error: err.message, isLoading: false }, false, "Error");
     }
@@ -110,6 +127,7 @@ const MenuStore = (set, get) => ({
           subtotal: parseFloat(
             (get().subtotal + parseFloat(item.basePrice)).toFixed(2)
           ),
+          cartQuantity: get().cartQuantity + 1,
         }),
         false,
         "Incremented"
@@ -138,6 +156,7 @@ const MenuStore = (set, get) => ({
           subtotal: parseFloat(
             (get().subtotal - parseFloat(item.basePrice)).toFixed(2)
           ),
+          cartQuantity: get().cartQuantity - 1,
         }),
         false,
         "Decremented"

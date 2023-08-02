@@ -14,7 +14,7 @@ const Checkout = () => {
   const incrementItem = useStore((state) => state.incrementItem);
   const decrementItem = useStore((state) => state.decrementItem);
   const [clickUser, setClickUser] = useState(true);
-  const [clickCart, setClickCart] = useState(true);
+  const [clickCart, setClickCart] = useState(false);
   const [customerName, setName] = useState();
   const [customerNumber, setNumber] = useState();
   const [customerMSG, setMsg] = useState();
@@ -89,22 +89,25 @@ const Checkout = () => {
               order.map((item, index) => (
                 <div key={index}>
                   <p>Name: {item.name}</p>
-                  <p>Quantity: {item.quantity}</p>
                   <p>Price: ${Number(item.price).toFixed(2)}</p>
-
-                  <div className="increment">
-                    <i
-                      className="fas fa-plus"
-                      onClick={() => incrementItem(item)}
-                    />
-                    <i
-                      className="fas fa-minus"
-                      onClick={() =>
-                        item.quantity > 1
-                          ? decrementItem(item)
-                          : deleteItem(item)
-                      }
-                    />
+                  <div className="amount">
+                    <div className="increment">
+                      <i
+                        className="fas fa-minus"
+                        onClick={() =>
+                          item.quantity > 1
+                            ? decrementItem(item)
+                            : deleteItem(item)
+                        }
+                      />
+                    </div>
+                    <p className="quantity">{item.quantity}</p>
+                    <div className="increment">
+                      <i
+                        className="fas fa-plus"
+                        onClick={() => incrementItem(item)}
+                      />
+                    </div>
                   </div>
                   <i
                     className="fas fa-trash"

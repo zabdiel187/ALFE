@@ -7,9 +7,20 @@
   align-items: center;
   font-size: calc(10px + 2vmin);
 }
+.date-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+}
 
-.calendarContainer i {
-  margin-right: 10px;
+.date-container h4 {
+  margin-right: 20px;
+}
+
+.date-container .date-picker {
+  font-size: calc(10px + 2vmin);
 }
 
 .item-container {
@@ -46,8 +57,8 @@
 
 .item-image {
   border: 1px solid white;
-  width: 400px;
-  height: 300px;
+  width: calc(300px + 10vmin);
+  height: calc(200px + 10vmin);
   border-radius: 40px;
 }
 

@@ -63,23 +63,24 @@ const Menu = () => {
 
   return (
     <div className="menu">
-      <h1>Menu Page</h1>
-      <h4>Select Date</h4>
-      <i className="fa fa-calendar" />
-      <DatePicker
-        selected={date}
-        onChange={(date) => setDate(date)}
-        filterDate={(date) =>
-          date.getDay() !== 1 &&
-          date.getDay() !== 2 &&
-          date.getDay() !== 3 &&
-          date.getDay() !== 4 &&
-          date.getDay() !== 5
-        }
-        minDate={new Date()}
-        dateFormat="MM/dd/yyyy"
-        withPortal
-      />
+      <div className="date-container">
+        <h4>Select a pickup date: </h4>
+        <DatePicker
+          className="date-picker"
+          selected={date}
+          onChange={(date) => setDate(date)}
+          filterDate={(date) =>
+            date.getDay() !== 1 &&
+            date.getDay() !== 2 &&
+            date.getDay() !== 3 &&
+            date.getDay() !== 4 &&
+            date.getDay() !== 5
+          }
+          minDate={new Date()}
+          dateFormat="MM/dd/yyyy"
+          withPortal
+        />
+      </div>
 
       {menu.map((item) => (
         <div className="item-container" key={item.item_ID}>
