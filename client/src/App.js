@@ -1,11 +1,12 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import Navbar from "./common/navbar";
 
+import Navbar from "./common/navbar";
 import AddProducts from "./pages/addProducts";
 import Menu from "./pages/menu";
 import Checkout from "./pages/checkout";
 import Orders from "./pages/orders";
+import Confirmation from "./pages/confirmation";
 
 /*
 import Home from "./pages/home";
@@ -33,6 +34,7 @@ const App = () => {
         <Route path="/addProducts" element={<AddProducts />} />
         <Route path="/menu" element={<Menu />} />
         <Route path="/cart" element={<Checkout />} />
+        <Route path="/confirmation" element={ <Confirmation />}/>
         <Route path="/orders" element={<Orders />} />
       </Routes>
     </>

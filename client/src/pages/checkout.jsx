@@ -4,6 +4,8 @@ import Axios from "axios";
 import "./checkout.css";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { useNavigate } from 'react-router-dom';
+
 
 const Checkout = () => {
   const order = useStore((state) => state.cart);
@@ -15,8 +17,8 @@ const Checkout = () => {
   const decrementItem = useStore((state) => state.decrementItem);
   const [clickUser, setClickUser] = useState(true);
   const [clickCart, setClickCart] = useState(false);
-  const [customerName, setName] = useState();
-  const [customerNumber, setNumber] = useState();
+  const [customerName, setName] = useState("");
+  const [customerNumber, setNumber] = useState("");
   const [customerMSG, setMsg] = useState();
   const [cash, setCash] = useState(false);
   const [zelle, setZelle] = useState(false);
@@ -24,6 +26,7 @@ const Checkout = () => {
   const setDate = useStore((state) => state.setDate);
   const date = useStore((state) => state.date);
   const clearDate = useStore((state) => state.clearDate);
+  const navigate = useNavigate()
 
   useEffect(() => {
     window.addEventListener("beforeunload", alertUser);
@@ -31,6 +34,7 @@ const Checkout = () => {
       window.removeEventListener("beforeunload", alertUser);
     };
   }, []);
+  
   const alertUser = (e) => {
     clearDate();
   };
@@ -38,6 +42,7 @@ const Checkout = () => {
   const toggleUserInfo = () => {
     setClickUser(!clickUser);
   };
+
   const toggleUserCart = () => {
     setClickCart(!clickCart);
   };
@@ -53,25 +58,37 @@ const Checkout = () => {
   };
 
   const handleSubmit = () => {
-    Axios.post("http://localhost:3001/api/sendOrder", {
-      pickupDate: pickupDate,
-      name: customerName,
-      number: customerNumber,
-      msg: customerMSG,
-      order: order,
-      subtotal: subtotal,
-      payWith: cash
-        ? "Cash"
-        : zelle
-        ? "Zelle"
-        : alert("Please select a payment method"),
-    }).then(
-      pickupDate === null
-        ? alert("Please select a pickup date")
-        : cash || zelle
-        ? alert("Reservation sent.")
-        : null
-    );
+    if (order.length < 0) {
+      alert("The cart is empty");
+    }
+    else if (customerName.length < 1) {
+      alert("Please enter your name")
+    }else if (customerNumber.length < 1) {
+      alert("Please enter your phone number")
+    }
+     else if (cash === false && zelle === false) {
+      alert("Please select a payment method")
+    }
+      else if (pickupDate === null) {
+      alert("Please select a pickup date")
+    }
+    else{
+       Axios.post("http://localhost:3001/api/sendOrder", {
+        pickupDate: pickupDate,
+        name: customerName,
+        number: customerNumber,
+        msg: customerMSG,
+        order: order,
+        subtotal: subtotal,
+        payWith: cash
+          ? "Cash"
+          : "Zelle"
+            
+       }).then(
+          navigate('/confirmation')
+      );
+    }
+    
   };
 
   return (

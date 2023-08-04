@@ -95,7 +95,7 @@ app.post("/api/sendOrder", (req, res) => {
     }
   );
 
-  res.send(200);
+  res.sendStatus(200);
 
   /* 
   twilio.messages
@@ -136,16 +136,26 @@ app.post("/api/updateOrders", (req, res) => {
     "UPDATE orders SET isPaid=(?)WHERE orderNum=(?)",
     [isPaid, orderNum],
     (err) => {
-      console.log("db" + isPaid);
       if (err) {
         console.log(err);
       }
     }
   );
-  res.send(200);
+  res.sendStatus(200);
 });
 
-//does not work yet, waiting for twilio varification
+app.post("/api/deleteOrder", (req, res) => {
+  const orderNum = req.body.orderNum;
+
+  db.query("DELETE FROM orders WHERE orderNum=?"), [orderNum], (err) => {
+    console.log("Order #:" + orderNum + " has been deleted");
+    if (err) {
+      console.log(err)
+    }
+  }
+  res.sendStatus(200);
+})
+
 app.post("/sms", (req, res) => {
   const twiml = new MessagingResponse();
   const incomingMessage = event.Body.toLowerCase();
@@ -199,7 +209,7 @@ app.post("/api/addProducts", (req, res) => {
     }
   );
 
-  res.send(200);
+  res.sendStatus(200);
 });
 
 app.post("/api/deleteProduct", (req, res) => {
@@ -211,7 +221,7 @@ app.post("/api/deleteProduct", (req, res) => {
     }
   });
 
-  res.send(200);
+  res.sendStatus(200);
 });
 
 app.post("/api/login", (req, res) => {

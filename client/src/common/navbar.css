@@ -49,8 +49,4 @@
     position: relative;
   }
 
-  .nav-links:hover {
-    background-color: #fc9992;
-    border-radius: 0;
-  }
 }
