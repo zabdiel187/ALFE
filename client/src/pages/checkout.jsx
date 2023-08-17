@@ -58,7 +58,7 @@ const Checkout = () => {
   };
 
   const handleSubmit = () => {
-    if (order.length < 0) {
+    if (order.length < 1) {
       alert("The cart is empty");
     }
     else if (customerName.length < 1) {

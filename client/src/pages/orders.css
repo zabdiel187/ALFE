@@ -1,3 +1,10 @@
+.orders-component {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+}
+
 .paid {
   display: flex;
   justify-content: center;

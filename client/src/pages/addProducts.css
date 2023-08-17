@@ -66,6 +66,21 @@ form {
   display: all;
 }
 
+.default .fa-sort-up{
+  border: 1px solid black;
+  margin: 0px 5px;
+  padding: 3px;
+  cursor: pointer;
+  scale: 150%;
+}
+.default .fa-sort-down{
+  border: 1px solid black;
+  margin: 0px 5px;
+  padding: 3px;
+  cursor: pointer;
+  scale: 150%;
+}
+
 .hidden {
   display: none;
 }

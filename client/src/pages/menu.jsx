@@ -5,9 +5,12 @@ import { useStore } from "../stores/MenuStore";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
+
 const Menu = () => {
   const [menu, setMenu] = useState([]);
   const [quantiddy, setQuantity] = useState([]);
+  const [isItemBoxOpen, setItemBoxOpen] = useState(false);
+  const [itemFocused, setItemFocused] = useState([]);
 
   const setDate = useStore((state) => state.setDate);
   const date = useStore((state) => state.date);
@@ -61,7 +64,29 @@ const Menu = () => {
     clearDate();
   };
 
+  const openItem = (item) => {
+    setItemFocused(item)
+    setItemBoxOpen(true)
+  }
+
+  const closeItem = () => {
+    setItemBoxOpen(false)
+  }
+
   return (
+    <>
+      <div className="banner">
+        <div className="banner-img">
+
+        </div>
+        <div className="banner-content">
+          <h1>HOW TO ORDER</h1>
+          <p>We cannot take your credit information</p>
+          <p>We only accept cash or zelle</p>
+          <p>You will have to pick up the food</p>
+          <p>Food pick up is only on the weekends</p>
+        </div>
+      </div>
     <div className="menu">
       <div className="date-container">
         <h4>Select a pickup date: </h4>
@@ -82,53 +107,68 @@ const Menu = () => {
         />
       </div>
 
+        <hr className="ugly2"></hr>
+        
+        <h1 className="ugly">MENU</h1>
+        <hr className="ugly2"></hr>
+        <div className="menu-items">
       {menu.map((item) => (
-        <div className="item-container" key={item.item_ID}>
+        <div className="item-content" key={item.item_ID} onClick={() => openItem(item)}>
           <img src={item.item_img_Link} className="item-image" alt="img" />
           <div>
-            <h1>{item.item_name}</h1>
-            <p>Ingredients: {item.item_ingredients}</p>
-            <p>Description: {item.item_description}</p>
-            <p>Price: ${item.item_price}</p>
-            <div className="item-container3">
+              <h1>{item.item_name}</h1>
+          </div>
+        </div>
+      ))}
+          
+          {isItemBoxOpen &&
+                  <div className="itemBox">
+                    <div className="itemBox-content">
+                     <h1>{itemFocused.item_name}</h1>
+            <p>Ingredients: {itemFocused.item_ingredients}</p>
+            <p>Description: {itemFocused.item_description}</p>
+            <p>Price: ${itemFocused.item_price}</p>
+            <div className="itemFocused-container3">
               <p>Quantity:</p>
               <input
                 type="number"
                 onChange={(e) =>
                   handleChange(
-                    item.item_ID,
+                    itemFocused.item_ID,
                     parseInt(e.target.value),
-                    item.item_price
+                    itemFocused.item_price
                   )
                 }
-                value={item.quantity < 0 ? 0 : item.quantity}
+                value={itemFocused.quantity < 0 ? 0 : itemFocused.quantity}
               />
               <button
                 onClick={() =>
-                  item.quantity > 0
+                  itemFocused.quantity > 0
                     ? updateOrder(
-                        item.item_ID,
-                        item.item_name,
+                        itemFocused.item_ID,
+                        itemFocused.item_name,
                         quantiddy,
-                        item.item_price,
-                        item.totalPrice,
-                        item.item_img_Link
+                        itemFocused.item_price,
+                        itemFocused.totalPrice,
+                        itemFocused.item_img_Link
                       )
                     : alert("cannot be empty")
                 }
               >
-                Add to cart
+                  Add to cart
               </button>
             </div>
-            <p>Total: ${item.totalPrice.toFixed(2)}</p>
-          </div>
-        </div>
-      ))}
+            <p>Total: ${itemFocused.totalPrice.toFixed(2)}</p>
+                    <button onClick={() => closeItem()}>Close</button>
+                    </div>
+                </div>}
 
+          </div>
       <Link className="addBtn" to="/addProducts">
         Add Item
       </Link>
-    </div>
+      </div>
+      </>
   );
 };
 

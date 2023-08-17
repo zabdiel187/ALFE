@@ -42,7 +42,7 @@ const Orders = () => {
   }
  
   return (
-    <div>
+    <div className="orders-component">
       <h1>Orders: </h1>
       <div>
         <table>
@@ -51,7 +51,7 @@ const Orders = () => {
               <th>Order Number</th>
               <th>Date Ordered</th>
               <th>Customer Name</th>
-              <th>Customer Phone Number</th>
+              <th>Phone Number</th>
               <th>Order</th>
               <th>Subtotal</th>
               <th>Pickup Date</th>

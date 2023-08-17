@@ -1,12 +1,13 @@
 const express = require("express");
+require('dotenv').config();
 const app = express();
 const mysql = require("mysql");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const Joi = require("joi");
 
-var sid = "AC7f51030bcb92ece1876939955575377c";
-var auth_Token = "96055a7f15aa1f71a17cf8c1e9cb6c03";
+var sid = process.env.TWILIO_SID
+var auth_Token = process.env.TWILIO_AUTH_TOKEN
 
 const twilio = require("twilio")(sid, auth_Token);
 const { MessagingResponse } = require("twilio").twiml;
@@ -40,6 +41,31 @@ app.get("/api/orders", (req, res) => {
     res.send(results);
   });
 });
+
+// Swaps the menu ID number with the next menu ID number
+app.post("/api/updateMenuOrderDown", (req, res) => {
+  const itemID_1 = req.body.item_ID;
+  const itemID_2 = itemID_1 + 1;
+
+
+  db.query("SELECT item_ID INTO @temp_data FROM menu WHERE item_ID = ?", [itemID_1], (err) => { if (err) { console.log("error 1" + err)}})
+  db.query("UPDATE menu SET item_ID = -1 WHERE item_ID = ?", [itemID_1], (err) => { if (err){console.log("error 2" + err)}})
+  db.query("UPDATE menu SET item_ID = ? WHERE item_ID = ?", [itemID_1, itemID_2],  (err) => { if (err){console.log("error 3" + err)}})
+  db.query("UPDATE menu SET item_ID = ? WHERE item_ID = -1", [itemID_2], (err) => {if (err) { console.log("error 4" + err) } else {res.sendStatus(200)}
+  })
+})
+
+app.post("/api/updateMenuOrderUp", (req, res) => {
+  const itemID_1 = req.body.item_ID;
+  const itemID_2 = itemID_1 - 1;
+
+
+  db.query("SELECT item_ID INTO @temp_data FROM menu WHERE item_ID = ?", [itemID_1], (err) => { if (err) { console.log("error 1" + err)}})
+  db.query("UPDATE menu SET item_ID = -1 WHERE item_ID = ?", [itemID_1], (err) => { if (err){console.log("error 2" + err)}})
+  db.query("UPDATE menu SET item_ID = ? WHERE item_ID = ?", [itemID_1, itemID_2],  (err) => { if (err){console.log("error 3" + err)}})
+  db.query("UPDATE menu SET item_ID = ? WHERE item_ID = -1", [itemID_2], (err) => {if (err) { console.log("error 4" + err) } else {res.sendStatus(200)}
+  })
+})
 
 app.post("/api/sendOrder", (req, res) => {
   const pickupDate = req.body.pickupDate;
@@ -147,14 +173,17 @@ app.post("/api/updateOrders", (req, res) => {
 app.post("/api/deleteOrder", (req, res) => {
   const orderNum = req.body.orderNum;
 
-  db.query("DELETE FROM orders WHERE orderNum=?"), [orderNum], (err) => {
-    console.log("Order #:" + orderNum + " has been deleted");
+  db.query("DELETE FROM orders WHERE orderNum=?", [orderNum], (err, result) => {
     if (err) {
-      console.log(err)
+      console.log(err);
+      res.status(500).send("Error deleting order");
+    } else {
+      console.log("Order #" + orderNum + " has been deleted");
+      res.sendStatus(200);
     }
-  }
-  res.sendStatus(200);
-})
+  });
+});
+
 
 app.post("/sms", (req, res) => {
   const twiml = new MessagingResponse();
@@ -167,26 +196,6 @@ app.post("/sms", (req, res) => {
     twiml.message("Not sure what you meant! Please say hello or bye!");
   }
   res.type("text/xml").send(twiml.toString());
-});
-
-app.post("/api/register", (req, res) => {
-  const firstName = req.body.first_Name;
-  const lastName = req.body.last_Name;
-  const userEmail = req.body.user_Email;
-  const userPassword = req.body.user_Password;
-
-  const sqlInsert =
-    "INSERT INTO users(first_Name, last_Name, user_Email, user_Password) VALUES (?,?,?,?);";
-  db.query(
-    sqlInsert,
-    [firstName, lastName, userEmail, userPassword],
-    (err, result) => {
-      console.log(firstName + " " + lastName + " was added to users");
-      if (err) {
-        console.log(err);
-      }
-    }
-  );
 });
 
 app.post("/api/addProducts", (req, res) => {
@@ -241,4 +250,24 @@ app.post("/api/login", (req, res) => {
       res.send({ message: "Wrong email or password" });
     }
   });
+});
+
+app.post("/api/register", (req, res) => {
+  const firstName = req.body.first_Name;
+  const lastName = req.body.last_Name;
+  const userEmail = req.body.user_Email;
+  const userPassword = req.body.user_Password;
+
+  const sqlInsert =
+    "INSERT INTO users(first_Name, last_Name, user_Email, user_Password) VALUES (?,?,?,?);";
+  db.query(
+    sqlInsert,
+    [firstName, lastName, userEmail, userPassword],
+    (err, result) => {
+      console.log(firstName + " " + lastName + " was added to users");
+      if (err) {
+        console.log(err);
+      }
+    }
+  );
 });

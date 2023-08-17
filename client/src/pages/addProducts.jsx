@@ -21,7 +21,7 @@ const AddProducts = () => {
     };
 
     getMenu();
-  }, []);
+  }, [menu]);
 
   const submitForm = async () => {
     try {
@@ -54,46 +54,71 @@ const AddProducts = () => {
     console.log(edit);
   };
 
+  const moveDown = (item_ID) => {
+    try {
+      Axios.post(serverEndpoint + "/updateMenuOrderDown", {
+        item_ID: item_ID
+      })
+    } catch (error) {
+      alert("Failed to move order down");
+      console.log(error)
+    }
+  }
+
+   const moveUp = (item_ID) => {
+    try {
+      Axios.post(serverEndpoint + "/updateMenuOrderUp", {
+        item_ID: item_ID
+      })
+    } catch (error) {
+      alert("Failed to move order up");
+      console.log(error)
+    }
+  }
+
   return (
     <div className="container">
-      {menu.map((item) => (
-        <div className="item-container" key={item.item_ID}>
-          <div className={edit ? "default" : "hidden"}>
-            <img src={item.item_img_Link} className="item-image" alt="img" />
-            <div>
-              <h1>{item.item_name}</h1>
-              <p>Ingredients: {item.item_ingredients}</p>
-              <p>Description: {item.item_description}</p>
-              <p>Price: ${item.item_price}</p>
+      {menu.map((item, index) => (
+          <div className="item-container" key={item.item_ID}>
+            <div className={edit ? "default" : "hidden"}>
+              <img src={item.item_img_Link} className="item-image" alt="img" />
+              <div>
+                <h1>{item.item_name}</h1>
+                <p>Ingredients: {item.item_ingredients}</p>
+                <p>Description: {item.item_description}</p>
+                <p>Price: ${item.item_price}</p>
+              </div>
+              <button onClick={handleEdit}>Edit Item</button>
             </div>
-            <button onClick={handleEdit}>Edit Item</button>
-          </div>
 
           <div className={edit ? "hidden" : "default"}>
-            <p>
-              Img: <input type="text" value={item.item_img_Link} />
-            </p>
-            <p>
-              Name: <input type="text" value={item.item_name} />
-            </p>
-            <p>
-              Ingredients:
+              <i className={item.item_ID === 1 ? "hidden" : "fa fa-sort-up"} onClick={() => moveUp(item.item_ID)} />
+            <img src={item.item_img_Link} className="item-image" alt="img" />
+              <p>
+                Img: <input type="text" value={item.item_img_Link} />
+              </p>
+              <p>
+                Name: <input type="text" value={item.item_name} />
+              </p>
+              <p>
+                Ingredients:
               <input type="text" value={item.item_ingredients} />
-            </p>
-            <p>
-              Description:
+              </p>
+              <p>
+                Description:
               <input type="text" value={item.item_description} />
-            </p>
-            <p>
-              Price: $ <input type="text" value={item.item_price} />
-            </p>
-            <button onClick={() => handleDelete(item.item_ID)}>
-              Delete Item
+              </p>
+              <p>
+                Price: $ <input type="text" value={item.item_price} />
+              </p>
+              <i className={item.item_ID ===  menu.length? "hidden" : "fa fa-sort-down"} onClick={ () => {moveDown(item.item_ID)}} />
+              <button onClick={() => handleDelete(item.item_ID)}>
+                Delete Item
             </button>
-            <button onClick={() => handleEdit()}>Save Item</button>
+              <button onClick={() => handleEdit()}>Save Item</button>
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
 
       <div className="newProduct">
         <div className="product">
