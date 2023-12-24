@@ -106,7 +106,8 @@ const Checkout = () => {
               order.map((item, index) => (
                 <div key={index}>
                   <p>Name: {item.name}</p>
-                  <p>Price: ${Number(item.price).toFixed(2)}</p>
+                  <p> {item.basePrice}</p>
+                  <p>Price: ${Number(item.basePrice * item.quantity).toFixed(2)}</p>
                   <div className="amount">
                     <div className="increment">
                       <i

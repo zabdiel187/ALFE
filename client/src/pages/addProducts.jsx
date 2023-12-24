@@ -79,7 +79,7 @@ const AddProducts = () => {
   return (
     <div className="container">
       {menu.map((item, index) => (
-          <div className="item-container" key={item.item_ID}>
+          <div className="item-containers" key={item.item_ID}>
             <div className={edit ? "default" : "hidden"}>
               <img src={item.item_img_Link} className="item-image" alt="img" />
               <div>
