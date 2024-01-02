@@ -155,7 +155,7 @@ const Menu = () => {
 
             
             <div className="item-container" key={item.item_ID}>
-              <div className="line"><div class="shadow"></div></div>
+              <div className="line"><div className="shadow"></div></div>
               <img src={item.item_img_Link} className="item-img" alt={item.item_name} />
               <h1 className="item-name"> {item.item_name}</h1>
                 <div className="user-inputs">
@@ -168,22 +168,21 @@ const Menu = () => {
                 }/>
                 <div className="submit-order" onClick={() => {
 
-                  if (item.quantity == 0 || isNaN(item.quantity)) {
+                  if (document.getElementById('quantity'+item.item_ID).value < 0 ||document.getElementById('quantity'+item.item_ID).value == 0 || isNaN(document.getElementById('quantity'+item.item_ID).value)) {
                     alert("Please enter a valid quantity")
-                  }else if (item.quantity < 0) {
-                    alert("Quantity cannot be negative")
                   } else{
-                    //  updateOrder(
-                    //     item.item_ID,
-                    //     item.item_name,
-                    //     quantiddy,
-                    //     item.item_price,
-                    //     item.totalPrice,
-                    //     item.item_img_Link
-                    //   ) 
-
-                        clearInput(item.item_ID)
-                    console.log ("item: " + item.item_name + " Quantity: " + quantiddy)
+                     updateOrder(
+                        item.item_ID,
+                        item.item_name,
+                        parseInt(document.getElementById('quantity'+item.item_ID).value),
+                        item.item_price,
+                        item.totalPrice,
+                        item.item_img_Link
+                      ) 
+                    console.log("value: " + document.getElementById('quantity'+item.item_ID).value)
+                    console.log ("item: " + item.item_name + " Quantity: " + document.getElementById('quantity'+item.item_ID).value)
+                    clearInput(item.item_ID)
+                    console.log(item.quantity)
                   } 
                   
                 }

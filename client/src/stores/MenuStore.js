@@ -35,7 +35,7 @@ const MenuStore = (set, get) => ({
                 order.id === newItem.id
                   ? {
                       ...order,
-                      quantity: order.quantity + newItem.quantity,
+                      quantity: order.quantity + (newItem.quantity),
                       price: order.price + newItem.price,
                     }
                   : order
