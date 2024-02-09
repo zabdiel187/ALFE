@@ -4,12 +4,11 @@ import "./menu.css";
 import { useStore } from "../stores/MenuStore";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-
+import Navbar from "../common/navbar";
 
 const Menu = () => {
   const [menu, setMenu] = useState([]);
   const [quantiddy, setQuantity] = useState(0);
-
 
   const setDate = useStore((state) => state.setDate);
   const date = useStore((state) => state.date);
@@ -17,7 +16,7 @@ const Menu = () => {
 
   useEffect(() => {
     const getMenu = async () => {
-      const res = await fetch("http://localhost:3001/api/menu");
+      const res = await fetch("http://localhost:3001/menu");
       const getData = await res.json();
       setMenu(getData.map((item) => ({ ...item, quantity: 0, totalPrice: 0 })));
     };
@@ -28,7 +27,7 @@ const Menu = () => {
   const handleChange = (itemId, quantity, price) => {
     setQuantity(quantity);
 
-    if (quantity < 0  || quantity == null) {
+    if (quantity < 0 || quantity == null) {
       // Set quantity to minimum value of 0
       quantity = 0;
     }
@@ -51,12 +50,10 @@ const Menu = () => {
     );
   };
 
-
-
   const updateOrder = useStore((state) => state.updateOrder);
   const clearInput = (id) => {
-    document.getElementById('quantity'+id).value = 0;
-  }
+    document.getElementById("quantity" + id).value = 0;
+  };
 
   useEffect(() => {
     window.addEventListener("beforeunload", alertUser);
@@ -69,34 +66,38 @@ const Menu = () => {
     clearDate();
   };
 
-
-
   return (
     <>
-    <div className="menu">
-      <div className="date-container">
+      <Navbar />
+      <div className="menu">
+        <div className="date-container">
           <DatePicker
-          label="Select a pickup date"
-          className="date-picker"
-          selected={date}
-          onChange={(date) => setDate(date)}
-          filterDate={(date) =>
-            date.getDay() !== 1 &&
-            date.getDay() !== 2 &&
-            date.getDay() !== 3 &&
-            date.getDay() !== 4 &&
-            date.getDay() !== 5
-          }
-          minDate={new Date()}
-          dateFormat="MM/dd/yyyy"
-          withPortal
-        />
-      </div>
+            label="Select a pickup date"
+            className="date-picker"
+            selected={date}
+            onChange={(date) => setDate(date)}
+            filterDate={(date) =>
+              date.getDay() !== 1 &&
+              date.getDay() !== 2 &&
+              date.getDay() !== 3 &&
+              date.getDay() !== 4 &&
+              date.getDay() !== 5
+            }
+            minDate={new Date()}
+            dateFormat="MM/dd/yyyy"
+            withPortal
+          />
+          <button
+            onClick={() => {
+              clearDate();
+            }}
+          >
+            Clear Date
+          </button>
+        </div>
 
         <div className="menu-items">
-         
-          {
-          /*
+          {/*
          
           {menu.map((item) => (
           
@@ -149,60 +150,84 @@ const Menu = () => {
                     </div>
             </div>
 
-              */
-          }
+              */}
           {menu.map((item) => (
-
-            
             <div className="item-container" key={item.item_ID}>
-              <div className="line"><div className="shadow"></div></div>
-              <img src={item.item_img_Link} className="item-img" alt={item.item_name} />
+              <div className="line">
+                <div className="shadow"></div>
+              </div>
+              <img
+                src={item.item_img_Link}
+                className="item-img"
+                alt={item.item_name}
+              />
               <h1 className="item-name"> {item.item_name}</h1>
-                <div className="user-inputs">
-                <input type="number" className="display-quantity" id={"quantity" + item.item_ID}  onChange={(e) =>
-                  handleChange(
-                    item.item_ID,
-                    parseInt(e.target.value),
-                    item.item_price
-                  )
-                }/>
-                <div className="submit-order" onClick={() => {
-
-                  if (document.getElementById('quantity'+item.item_ID).value < 0 ||document.getElementById('quantity'+item.item_ID).value == 0 || isNaN(document.getElementById('quantity'+item.item_ID).value)) {
-                    alert("Please enter a valid quantity")
-                  } else{
-                     updateOrder(
+              <div className="user-inputs">
+                <input
+                  type="number"
+                  className="display-quantity"
+                  id={"quantity" + item.item_ID}
+                  onChange={(e) =>
+                    handleChange(
+                      item.item_ID,
+                      parseInt(e.target.value),
+                      item.item_price
+                    )
+                  }
+                />
+                <div
+                  className="submit-order"
+                  onClick={() => {
+                    if (
+                      document.getElementById("quantity" + item.item_ID).value <
+                        0 ||
+                      document.getElementById("quantity" + item.item_ID)
+                        .value == 0 ||
+                      isNaN(
+                        document.getElementById("quantity" + item.item_ID).value
+                      )
+                    ) {
+                      alert("Please enter a valid quantity");
+                    } else {
+                      updateOrder(
                         item.item_ID,
                         item.item_name,
-                        parseInt(document.getElementById('quantity'+item.item_ID).value),
+                        parseInt(
+                          document.getElementById("quantity" + item.item_ID)
+                            .value
+                        ),
                         item.item_price,
                         item.totalPrice,
                         item.item_img_Link
-                      ) 
-                    console.log("value: " + document.getElementById('quantity'+item.item_ID).value)
-                    console.log ("item: " + item.item_name + " Quantity: " + document.getElementById('quantity'+item.item_ID).value)
-                    clearInput(item.item_ID)
-                    console.log(item.quantity)
-                  } 
-                  
-                }
-                    
-                }>
-                    Add to Cart
-                  </div>
+                      );
+                      console.log(
+                        "value: " +
+                          document.getElementById("quantity" + item.item_ID)
+                            .value
+                      );
+                      console.log(
+                        "item: " +
+                          item.item_name +
+                          " Quantity: " +
+                          document.getElementById("quantity" + item.item_ID)
+                            .value
+                      );
+                      clearInput(item.item_ID);
+                      console.log(item.quantity);
+                    }
+                  }}
+                >
+                  Add to Cart
                 </div>
+              </div>
             </div>
-
-             ))}
-
-
-
-          </div>
-      <Link className="addBtn" to="/addProducts">
-        Add Item
-      </Link>
+          ))}
+        </div>
+        <Link className="addBtn" to="/addProducts">
+          Add Item
+        </Link>
       </div>
-      </>
+    </>
   );
 };
 

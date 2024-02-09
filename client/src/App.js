@@ -1,12 +1,14 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 
-import Navbar from "./common/navbar";
 import AddProducts from "./pages/addProducts";
 import Menu from "./pages/menu";
 import Checkout from "./pages/checkout";
-import Orders from "./pages/orders";
+import Orders from "./pages/admin/orders";
 import Confirmation from "./pages/confirmation";
+import Login from "./common/login";
+import Admin from "./pages/admin/admin";
+import Requests from "./pages/admin/requests";
 
 /*
 import Home from "./pages/home";
@@ -22,7 +24,6 @@ const App = () => {
 
   return (
     <>
-      <Navbar />
       <Routes>
         {/*
         <Route path="/" element={<Home />} />
@@ -31,11 +32,14 @@ const App = () => {
         <Route path="/createGroup" element={<CreateGroup />} />
         */}
         <Route path="/" element={<Menu />} />
-        <Route path="/addProducts" element={<AddProducts />} />
+        <Route path="/admin/addProducts" element={<AddProducts />} />
         <Route path="/menu" element={<Menu />} />
         <Route path="/cart" element={<Checkout />} />
-        <Route path="/confirmation" element={ <Confirmation />}/>
-        <Route path="/orders" element={<Orders />} />
+        <Route path="/confirmation" element={<Confirmation />} />
+        <Route path="/admin/orders" element={<Orders />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/admin" element={<Admin />} />
+        <Route path="/admin/requests" element={<Requests />} />
       </Routes>
     </>
   );

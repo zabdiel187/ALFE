@@ -1,0 +1,1 @@
+SELECT * FROM orders WHERE LOWER(customerName) LIKE '%%' ORDER BY pickupDate ASC;

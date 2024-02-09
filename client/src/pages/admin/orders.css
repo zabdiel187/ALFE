@@ -2,7 +2,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-
 }
 
 .paid {
@@ -28,6 +27,7 @@ td i {
 
 table {
   margin: 10px;
+  min-width: 1285px;
 }
 
 .completed0 {
@@ -41,8 +41,8 @@ table {
   background-color: rgb(222, 222, 222);
 }
 
-.alertBox{
-    position: fixed;
+.alertBox {
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -58,4 +58,12 @@ table {
   padding: 20px;
   border-radius: 5px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.loginButton {
+  height: 20vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
