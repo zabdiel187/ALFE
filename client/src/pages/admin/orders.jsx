@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import Axios from "axios";
 import "./orders.css";
+import { useNavigate } from "react-router-dom";
+
 // import Login from "../../common/login";
 
 const Orders = () => {
@@ -10,6 +12,7 @@ const Orders = () => {
   const [isAlertBoxOpen, setAlertBoxOpen] = useState(false);
   const [orderDel, setOrderDel] = useState();
   const [search, setSearch] = useState("");
+  const navigate = useNavigate();
 
   // const clientId =
   //   "703742405077-l6tdbv316s305bmtahmj5u9lgllkmvar.apps.googleusercontent.com";
@@ -69,6 +72,13 @@ const Orders = () => {
 
   return (
     <div className="orders-component">
+      <button
+        onClick={() => {
+          navigate("/admin");
+        }}
+      >
+        Admin Page
+      </button>
       <h1>Orders: </h1>
       <input
         type="text"

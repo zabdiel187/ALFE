@@ -6,7 +6,7 @@ var sid = process.env.TWILIO_SID;
 var auth_Token = process.env.TWILIO_AUTH_TOKEN;
 const twilio = require("twilio")(sid, auth_Token);
 
-router.post("/sendOrder", (req, res) => {
+router.post("/sendRequest", (req, res) => {
   const pickupDate = req.body.pickupDate;
   const name = req.body.name;
   const number = req.body.number;

@@ -71,7 +71,7 @@ const Checkout = () => {
     } else if (pickupDate === null) {
       alert("Please select a pickup date");
     } else {
-      Axios.post(SERVER + "/cart/sendOrder", {
+      Axios.post(SERVER + "/cart/sendRequest", {
         pickupDate: pickupDate,
         name: customerName,
         number: customerNumber,
