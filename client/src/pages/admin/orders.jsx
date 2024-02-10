@@ -14,11 +14,11 @@ const Orders = () => {
   // const clientId =
   //   "703742405077-l6tdbv316s305bmtahmj5u9lgllkmvar.apps.googleusercontent.com";
 
-  const PORT = "http://localhost:3001";
+  const SERVER = "http://localhost:3001";
 
   useEffect(() => {
     const getOrders = async () => {
-      const res = await fetch(PORT + "/admin/orders?search=" + search);
+      const res = await fetch(SERVER + "/admin/orders?search=" + search);
       const getOrders = await res.json();
       setOrders(getOrders.map((order) => ({ ...order })));
     };
@@ -30,7 +30,7 @@ const Orders = () => {
     if (order.isPaid) {
       openUncheckHandler(order);
     } else {
-      Axios.post("http://localhost:3001/admin/updateOrders", {
+      Axios.post(SERVER + "/admin/updateOrders", {
         orderNum: order.orderNum,
         isPaid: !order.isPaid,
       });
@@ -46,7 +46,7 @@ const Orders = () => {
   };
 
   const uncheckOrder = (order) => {
-    Axios.post("http://localhost:3001/admin/updateOrders", {
+    Axios.post(SERVER + "/admin/updateOrders", {
       orderNum: order.orderNum,
       isPaid: !order.isPaid,
     }).then(setUncheckHandler(false));
@@ -62,7 +62,7 @@ const Orders = () => {
   };
 
   const deleTeOrder = (order) => {
-    Axios.post("http://localhost:3001/admin/deleteOrder", {
+    Axios.post(SERVER + "/admin/deleteOrder", {
       orderNum: order.orderNum,
     }).then(setAlertBoxOpen(false));
   };

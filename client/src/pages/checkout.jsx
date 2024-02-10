@@ -28,6 +28,8 @@ const Checkout = () => {
   const clearDate = useStore((state) => state.clearDate);
   const navigate = useNavigate();
 
+  const SERVER = "http://localhost:3001";
+
   useEffect(() => {
     window.addEventListener("beforeunload", alertUser);
     return () => {
@@ -69,7 +71,7 @@ const Checkout = () => {
     } else if (pickupDate === null) {
       alert("Please select a pickup date");
     } else {
-      Axios.post("http://localhost:3001/cart/sendOrder", {
+      Axios.post(SERVER + "/cart/sendOrder", {
         pickupDate: pickupDate,
         name: customerName,
         number: customerNumber,

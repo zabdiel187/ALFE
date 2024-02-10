@@ -14,9 +14,11 @@ const Menu = () => {
   const date = useStore((state) => state.date);
   const clearDate = useStore((state) => state.clearDate);
 
+  const SERVER = "http://localhost:3001";
+
   useEffect(() => {
     const getMenu = async () => {
-      const res = await fetch("http://localhost:3001/menu");
+      const res = await fetch(SERVER + "/menu");
       const getData = await res.json();
       setMenu(getData.map((item) => ({ ...item, quantity: 0, totalPrice: 0 })));
     };
