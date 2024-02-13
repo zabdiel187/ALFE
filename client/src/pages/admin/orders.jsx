@@ -21,13 +21,17 @@ const Orders = () => {
 
   useEffect(() => {
     const getOrders = async () => {
-      const res = await fetch(SERVER + "/admin/orders?search=" + search);
-      const getOrders = await res.json();
-      setOrders(getOrders.map((order) => ({ ...order })));
+      try {
+        const res = await fetch(SERVER + "/admin/orders?search=" + search);
+        const getOrders = await res.json();
+        setOrders(getOrders.map((order) => ({ ...order })));
+      } catch (err) {
+        console.log(err);
+      }
     };
 
     getOrders();
-  }, [search, orders]);
+  }, [search]);
 
   const handleToggle = (order) => {
     if (order.isPaid) {
@@ -91,11 +95,13 @@ const Orders = () => {
           <thead>
             <tr>
               <th className="orderNumberHeader">Order Number</th>
+              <th>Request Num</th>
               <th className="dateOrderedHeader">Date Ordered</th>
               <th className="customerNameHeader">Customer Name</th>
               <th className="phoneNumberHeader">Phone Number</th>
               <th className="orderHeader">Order</th>
               <th className="subtotalHeader">Subtotal</th>
+              <th>Customer Message</th>
               <th className="pickupDateHeader">Pickup Date</th>
               <th className="paymentTypeHeader">Payment Type</th>
               <th className="isPaidHeader">Paid?</th>
@@ -114,6 +120,7 @@ const Orders = () => {
                 }
               >
                 <td>{order.orderNum}</td>
+                <td>{order.requestNum}</td>
                 <td>{order.dateOrdered}</td>
                 <td>{order.customerName}</td>
                 <td>
@@ -125,6 +132,7 @@ const Orders = () => {
                 </td>
                 <td>{order.cart}</td>
                 <td>${order.subtotal}</td>
+                <td>{order.customerMsg}</td>
                 <td>{order.pickupDate}</td>
                 <td>{order.paymentType}</td>
                 <td className="paid">

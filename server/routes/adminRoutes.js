@@ -17,6 +17,21 @@ router.get("/requests", (req, res) => {
   });
 });
 
+router.post("/acceptRequest", (req, res) => {
+  const requestNumber = req.body.requestNum;
+
+  const query =
+    "INSERT INTO orders (requestNum, dateOrdered, customerName, customerNumber, cart, customerMsg, subtotal, pickupDate, paymentType, isPaid) " +
+    "SELECT requestNum, dateOrdered, customerName, customerNumber, cart, customerMsg, subtotal, pickupDate, paymentType, 0 AS isPaid " +
+    "FROM requests " +
+    "WHERE requestNum = (?);";
+
+  db.query(query, [requestNumber], (err, results) => {
+    if (err) throw err;
+    res.send(results);
+  });
+});
+
 router.get("/orders", (req, res) => {
   const name = req.query.search;
   const requestsQuery =

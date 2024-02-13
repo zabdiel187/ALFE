@@ -40,7 +40,7 @@ router.post("/sendRequest", (req, res) => {
   };
 
   const sqlInsert =
-    "INSERT INTO requests(dateOrdered, customerName, customerNumber, cart, subtotal, pickupDate, paymentType) VALUES (?,?,?,?,?,?,?)";
+    "INSERT INTO requests(dateOrdered, customerName, customerNumber, cart, customerMsg, subtotal, pickupDate, paymentType) VALUES (?,?,?,?,?,?,?,?)";
   db.query(
     sqlInsert,
     [
@@ -48,6 +48,7 @@ router.post("/sendRequest", (req, res) => {
       name,
       number,
       getOrder(order),
+      message,
       subtotal,
       getPickup(),
       payWith,

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import Axios from "axios";
 
 const Requests = () => {
   const [requests, setRequests] = useState();
@@ -30,7 +31,14 @@ const Requests = () => {
       setTargetRequest(request);
       setConfirmed(true);
     } else {
-      console.log(targetRequest.customerName + "'s Request has been accepted");
+      ///////////////////////////
+      try {
+        Axios.post(SERVER + "/admin/acceptRequest", {
+          requestNum: targetRequest.requestNum,
+        });
+      } catch (err) {
+        console.log(err);
+      }
       setConfirmed(false);
     }
   };
@@ -40,6 +48,7 @@ const Requests = () => {
       setTargetRequest(request);
       setRejected(true);
     } else {
+      ////////////////////////////
       console.log(targetRequest.customerName + "'s Request has been rejected");
       setRejected(false);
     }
@@ -71,6 +80,7 @@ const Requests = () => {
               <th>Phone Number</th>
               <th>Order Details</th>
               <th>Subtotal</th>
+              <th>Customer Message</th>
               <th>Pickup Date</th>
               <th>Payment Type</th>
               <th>Accept Order?</th>
@@ -79,7 +89,10 @@ const Requests = () => {
           <tbody>
             {requests ? (
               requests.map((request) => (
-                <tr key={request.requestNum}>
+                <tr
+                  key={request.requestNum}
+                  className={"inProgress" + (request.requestNum % 2)}
+                >
                   <td>{request.requestNum}</td>
                   <td>{request.dateOrdered}</td>
                   <td>{request.customerName}</td>
@@ -92,6 +105,7 @@ const Requests = () => {
                   </td>
                   <td>{request.cart}</td>
                   <td>${request.subtotal}</td>
+                  <td>{request.customerMsg}</td>
                   <td>{request.pickupDate}</td>
                   <td>{request.paymentType}</td>
                   <td>
