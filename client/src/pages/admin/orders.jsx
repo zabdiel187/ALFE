@@ -104,6 +104,7 @@ const Orders = () => {
               <th>Customer Message</th>
               <th className="pickupDateHeader">Pickup Date</th>
               <th className="paymentTypeHeader">Payment Type</th>
+              <th>Status</th>
               <th className="isPaidHeader">Paid?</th>
               <th></th>
             </tr>
@@ -135,6 +136,7 @@ const Orders = () => {
                 <td>{order.customerMsg}</td>
                 <td>{order.pickupDate}</td>
                 <td>{order.paymentType}</td>
+                <td>{order.status}</td>
                 <td className="paid">
                   <i
                     className={

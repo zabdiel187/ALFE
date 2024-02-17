@@ -6,29 +6,61 @@ router.get("/", (req, res) => {
   res.json({ message: "Admin routes" });
 });
 
-router.get("/requests", (req, res) => {
+router.get("/requests", async (req, res) => {
   const name = req.query.search;
   const requestsQuery =
     "SELECT * FROM requests WHERE LOWER(customerName) LIKE ? ORDER BY pickupDate ASC;";
 
-  db.query(requestsQuery, [`%${name.toLowerCase()}%`], (err, results) => {
-    if (err) throw err;
-    res.send(results);
-  });
+  try {
+    db.query(requestsQuery, [`%${name.toLowerCase()}%`], (err, results) => {
+      if (err) throw err;
+      res.send(results);
+    });
+  } catch (err) {
+    console.error(err);
+  }
 });
 
-router.post("/acceptRequest", (req, res) => {
+router.post("/acceptRequest", async (req, res) => {
   const requestNumber = req.body.requestNum;
 
+  const updateStatus =
+    "UPDATE requests SET status = 'Accepted' WHERE requestNum = (?);";
+
+  try {
+    db.query(updateStatus, [requestNumber], (err, result) => {
+      if (err) throw err;
+      res.send(result);
+    });
+  } catch (err) {
+    console.error(err);
+  }
+
   const query =
-    "INSERT INTO orders (requestNum, dateOrdered, customerName, customerNumber, cart, customerMsg, subtotal, pickupDate, paymentType, isPaid) " +
-    "SELECT requestNum, dateOrdered, customerName, customerNumber, cart, customerMsg, subtotal, pickupDate, paymentType, 0 AS isPaid " +
+    "INSERT INTO orders (requestNum, dateOrdered, customerName, customerNumber, cart, customerMsg, subtotal, pickupDate, paymentType, status, isPaid) " +
+    "SELECT requestNum, dateOrdered, customerName, customerNumber, cart, customerMsg, subtotal, pickupDate, paymentType, status, 0 AS isPaid " +
     "FROM requests " +
     "WHERE requestNum = (?);";
 
-  db.query(query, [requestNumber], (err, results) => {
+  db.query(query, [requestNumber], (err, result) => {
     if (err) throw err;
-    res.send(results);
+    res.send(result);
+  });
+});
+
+router.post("/rejectRequest", (req, res) => {
+  const requestNumber = req.body.requestNum;
+  const rejectReason = req.body.rejectReason;
+
+  const query =
+    "INSERT INTO rejected (requestNum, dateOrdered, customerName, customerNumber, cart, customerMsg, subtotal, pickupDate, paymentType, reason) " +
+    "SELECT requestNum, dateOrdered, customerName, customerNumber, cart, customerMsg, subtotal, pickupDate, paymentType, (?) AS reason " +
+    "FROM requests " +
+    "WHERE requestNum = (?);";
+
+  db.query(query, [rejectReason, requestNumber], (err, result) => {
+    if (err) throw err;
+    res.send(result);
   });
 });
 

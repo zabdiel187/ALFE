@@ -8,6 +8,7 @@ const Requests = () => {
   const [targetRequest, setTargetRequest] = useState();
   const [isConfirmed, setConfirmed] = useState(false);
   const [isRejected, setRejected] = useState(false);
+  const [reason, setReason] = useState("");
   const navigate = useNavigate();
 
   const SERVER = "http://localhost:3001";
@@ -49,7 +50,16 @@ const Requests = () => {
       setRejected(true);
     } else {
       ////////////////////////////
-      console.log(targetRequest.customerName + "'s Request has been rejected");
+
+      try {
+        Axios.post(SERVER + "/admin/rejectRequest", {
+          requestNum: targetRequest.requestNum,
+          rejectReason: reason,
+        });
+      } catch (err) {
+        console.log(err);
+      }
+
       setRejected(false);
     }
   };
@@ -83,6 +93,7 @@ const Requests = () => {
               <th>Customer Message</th>
               <th>Pickup Date</th>
               <th>Payment Type</th>
+              <th>Status</th>
               <th>Accept Order?</th>
             </tr>
           </thead>
@@ -108,6 +119,7 @@ const Requests = () => {
                   <td>{request.customerMsg}</td>
                   <td>{request.pickupDate}</td>
                   <td>{request.paymentType}</td>
+                  <td>{request.status}</td>
                   <td>
                     <button
                       onClick={() => {
@@ -141,6 +153,14 @@ const Requests = () => {
         {isRejected && (
           <div>
             <h1>Are you sure you want to reject this order?</h1>
+            <h2>Reason? (Optional)</h2>
+            <textarea
+              rows={5}
+              cols={100}
+              onChange={(e) => {
+                setReason(e.target.value);
+              }}
+            />
             <button onClick={() => rejectRequest()}>Reject</button>
             <button onClick={() => setRejected(false)}>Go back</button>
           </div>
