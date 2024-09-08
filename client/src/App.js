@@ -10,6 +10,8 @@ import Login from "./common/login";
 import Admin from "./pages/admin/admin";
 import Requests from "./pages/admin/requests";
 
+import Home from "./pages/home";
+
 /*
 import Home from "./pages/home";
 import { SignUp } from "./pages/signUp";
@@ -31,7 +33,9 @@ const App = () => {
         <Route path="/login" element={<Login name={pull_name} />} />
         <Route path="/createGroup" element={<CreateGroup />} />
         */}
-        <Route path="/" element={<Menu />} />
+
+        <Route path="/home" element={<Home />} />
+        <Route path="/" element={<Home />} />
         <Route path="/admin/addProducts" element={<AddProducts />} />
         <Route path="/menu" element={<Menu />} />
         <Route path="/cart" element={<Checkout />} />

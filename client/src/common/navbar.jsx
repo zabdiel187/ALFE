@@ -6,18 +6,22 @@ import "./navbar.css";
 const Navbar = () => {
   const quantity = useStore((state) => state.cartQuantity);
   return (
-    <div>
-      <nav className="navbar">
-        <Link className="nav-links" to="/menu">
-          <h1 className="name"><span className="AL">AL</span><span className="FE">FE</span> Catering</h1>
+    <nav className="navBar">
+      <ul className="leftNavContainer">
+        <Link className="navLinks" to="/">
+          <li>Home</li>
         </Link>
-
-        <Link className="nav-links" to="/cart">
+        <Link className="navLinks" to="/menu">
+          <li>Menu</li>
+        </Link>
+      </ul>
+      <div className="rightNavContainer">
+        <Link to="/cart">
           <i className="fa fa-shopping-cart" />
           <span className="quantity">{quantity}</span>
         </Link>
-      </nav>
-    </div>
+      </div>
+    </nav>
   );
 };
 
