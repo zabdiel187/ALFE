@@ -1,10 +1,10 @@
 :root {
-      --background-color: white;
-      --second-background-color: rgba(251,251,253,255);
-      --primary-color: rgb(255, 110, 110);
-      --secondary-color: rgb(110, 110, 255);
-      --tertiary-color: rgb(255, 255, 110);
-      --text-color: black;
+  --background-color: white;
+  --second-background-color: rgba(251, 251, 253, 255);
+  --primary-color: rgb(255, 110, 110);
+  --secondary-color: rgb(110, 110, 255);
+  --tertiary-color: rgb(255, 255, 110);
+  --text-color: black;
 }
 
 .menu {
@@ -15,20 +15,15 @@
   flex-direction: column;
   align-items: center;
   font-size: calc(10px + 2vmin);
-
-
+  position: absolute;
+  top: 80px;
 }
-
-
-
-
 
 .date-container {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-
 }
 
 .date-container h4 {
@@ -44,98 +39,47 @@
   height: 50px;
 }
 
-
-
 .menu-items {
+  display: flex;
+  flex-direction: column;
+}
+
+.sectionTitle {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-evenly;
-}
-
-.line {
-  border-top: 1px solid #c7c8c9;
-  width: 90vw;
-  margin-bottom: 20px;
-  margin-top: 20px;
+  width: 100vw;
   position: relative;
 }
 
-.line .shadow {
-  overflow: hidden;
-  height: 20px;
+.sectionTitle h2 {
+  position: absolute;
 }
 
-.line .shadow:after {
-  content: '';
-  display: block;
-  margin: -25px auto 0;
-  width: 100%;
-  height: 25px;
-  border-radius: 125px/12px;
-  box-shadow: 0 0 8px black;
-}
+.sectionTitle .item-container {
+  margin-top: 50px;
+  margin-left: 2.5vw;
+  width: 30vw;
+  height: 50vh;
+  background-color: aliceblue;
 
+  position: relative;
+}
 
 .item-image {
-scale: 50%;
-
+  max-width: 28vw;
+  width: 28vw;
 }
 
+.submit-order {
+  color: white;
+  background-color: red;
+  border-radius: 50%;
+  width: 150px;
+  padding: 10px 20px;
+  cursor: pointer;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-@media only screen and (max-width: 500px) { 
-  .menu-items {
-    width: 100vw;
-    align-items: center;
-    justify-content: center;
-
-  }
-  .item-container {
-    display: flex;
-    flex-direction: column;
-    width: 90vw;
-    height: 60%;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .item-img {
-    width: 80%;
-    height: 30%;
-  }
-  .user-inputs{
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-  }
- 
-  .display-quantity{
-
-    margin:  0px 10px;
-    width: 30%;
-    text-align: center;
-    font-size: 16px;
-  }
-  .submit-order{
-    border: 1px solid black;
-    border-radius: 10px;
-    background-color: red;
-    color: white;
-    display: grid;
-    place-items: center;
-    padding: 5px;
-  }
+  position: absolute;
+  bottom: 10%;
+  left: 25%;
 }

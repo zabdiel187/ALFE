@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 
-import AddProducts from "./pages/addProducts";
+import AddProducts from "./pages/admin/addProducts";
 import Menu from "./pages/menu";
 import Checkout from "./pages/checkout";
 import Orders from "./pages/admin/orders";

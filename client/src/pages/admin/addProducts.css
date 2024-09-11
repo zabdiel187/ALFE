@@ -1,0 +1,83 @@
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.addItemsContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.addProductBtnContainer {
+  margin: 50px;
+}
+
+.newItemBtn {
+  background-color: red;
+  color: white;
+  padding: 3px 10px;
+  border-radius: 25px;
+  scale: 150%;
+}
+
+.addItemsContainer .menuItems {
+  width: 100vw;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.item-containers {
+  background-color: rgb(250, 250, 250);
+  border-radius: 30px;
+  display: flex;
+  flex-direction: column;
+  width: 25vw;
+  height: 50vh;
+  margin: 10px 2vw;
+  position: relative;
+}
+
+.menuItems .item-containers .itemImage {
+  width: 20vw;
+  margin-left: 2.5vw;
+  position: absolute;
+  left: 0vw;
+  top: 10vh;
+}
+
+.menuItems .item-containers h1 {
+  position: absolute;
+  left: 1vw;
+}
+
+.menuItems .item-containers p {
+  position: absolute;
+  right: 1vw;
+  top: 3vh;
+}
+
+.menuItems .item-containers .buttonContainer {
+  position: absolute;
+  bottom: 1vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.menuItems .item-containers .editButton {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 25px;
+  background-color: rgb(254, 214, 145);
+}
+
+.menuItems .item-containers .deleteButton {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 25px;
+}

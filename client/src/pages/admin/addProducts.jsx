@@ -77,58 +77,68 @@ const AddProducts = () => {
   };
 
   return (
-    <div className="container">
-      {menu.map((item, index) => (
-        <div className="item-containers" key={item.item_ID}>
-          <div className={edit ? "default" : "hidden"}>
-            <img src={item.item_img_Link} className="item-image" alt="img" />
-            <div>
-              <h1>{item.item_name}</h1>
-              <p>Ingredients: {item.item_ingredients}</p>
-              <p>Description: {item.item_description}</p>
-              <p>Price: ${item.item_price}</p>
-            </div>
-            <button onClick={handleEdit}>Edit Item</button>
-          </div>
+    <div className="addItemsContainer">
+      <div className="addProductBtnContainer">
+        <div className="newItemBtn">Add new Item</div>
+      </div>
+      <div className="menuItems">
+        {menu.map((item, index) => (
+          <div className="item-containers" key={item.item_ID}>
+            <h1>{item.item_name}</h1>
+            <p>${item.item_price}</p>
+            {/* <img src={item.item_img_Link} className="item-image" alt="img" /> */}
+            <img
+              src={"https://via.placeholder.com/150"}
+              className="itemImage"
+              alt="img"
+            />
 
-          <div className={edit ? "hidden" : "default"}>
-            <i
-              className={item.item_ID === 1 ? "hidden" : "fa fa-sort-up"}
-              onClick={() => moveUp(item.item_ID)}
-            />
-            <img src={item.item_img_Link} className="item-image" alt="img" />
-            <p>
-              Img: <input type="text" value={item.item_img_Link} />
-            </p>
-            <p>
-              Name: <input type="text" value={item.item_name} />
-            </p>
-            <p>
-              Ingredients:
-              <input type="text" value={item.item_ingredients} />
-            </p>
-            <p>
-              Description:
-              <input type="text" value={item.item_description} />
-            </p>
-            <p>
-              Price: $ <input type="text" value={item.item_price} />
-            </p>
-            <i
-              className={
-                item.item_ID === menu.length ? "hidden" : "fa fa-sort-down"
-              }
-              onClick={() => {
-                moveDown(item.item_ID);
-              }}
-            />
-            <button onClick={() => handleDelete(item.item_ID)}>
-              Delete Item
-            </button>
-            <button onClick={() => handleEdit()}>Save Item</button>
+            <div className="buttonContainer">
+              <button className="editButton" onClick={handleEdit}>
+                Edit Item
+              </button>
+              <button className="deleteButton">Delete Item</button>
+            </div>
+
+            {/* <div className={edit ? "hidden" : "default"}>
+              <i
+                className={item.item_ID === 1 ? "hidden" : "fa fa-sort-up"}
+                onClick={() => moveUp(item.item_ID)}
+              />
+              <img src={item.item_img_Link} className="item-image" alt="img" />
+              <p>
+                Img: <input type="text" value={item.item_img_Link} />
+              </p>
+              <p>
+                Name: <input type="text" value={item.item_name} />
+              </p>
+              <p>
+                Ingredients:
+                <input type="text" value={item.item_ingredients} />
+              </p>
+              <p>
+                Description:
+                <input type="text" value={item.item_description} />
+              </p>
+              <p>
+                Price: $ <input type="text" value={item.item_price} />
+              </p>
+              <i
+                className={
+                  item.item_ID === menu.length ? "hidden" : "fa fa-sort-down"
+                }
+                onClick={() => {
+                  moveDown(item.item_ID);
+                }}
+              />
+              <button onClick={() => handleDelete(item.item_ID)}>
+                Delete Item
+              </button>
+              <button onClick={() => handleEdit()}>Save Item</button>
+            </div> */}
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
 
       <div className="newProduct">
         <div className="product">

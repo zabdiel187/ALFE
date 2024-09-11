@@ -29,7 +29,7 @@ const Menu = () => {
   const handleChange = (itemId, quantity, price) => {
     setQuantity(quantity);
 
-    if (quantity < 0 || quantity == null) {
+    if (quantity < 0 || quantity === null) {
       // Set quantity to minimum value of 0
       quantity = 0;
     }
@@ -68,6 +68,8 @@ const Menu = () => {
     clearDate();
   };
 
+  clearDate();
+
   return (
     <>
       <Navbar />
@@ -99,135 +101,80 @@ const Menu = () => {
         </div>
 
         <div className="menu-items">
-          {/*
-         
-          {menu.map((item) => (
-          
-            
-          <div className="item-content" key={item.item_ID} onClick={() => openItem(item)}>
-            <img src={item.item_img_Link} className="item-image" alt="img" />
-            <div>
-                <h1>{item.item_name}</h1>
-            </div>
-          </div>
-      ))}
-          
-          {
-            isItemBoxOpen &&
-                  <div className="itemBox">
-                    <div className="itemBox-content">
-                     <h1>{itemFocused.item_name}</h1>
-            <p>Ingredients: {itemFocused.item_ingredients}</p>
-            <p>Description: {itemFocused.item_description}</p>
-            <p>Price: ${itemFocused.item_price}</p>
-            <div className="itemFocused-container3">
-              <p>Quantity:</p>
-              <input
-                type="number"
-                onChange={(e) =>
-                  handleChange(
-                    itemFocused.item_ID,
-                    parseInt(e.target.value),
-                    itemFocused.item_price
-                  )
-                }
-              />
-              <button
-                onClick={() =>
-                    updateOrder(
-                        itemFocused.item_ID,
-                        itemFocused.item_name,
-                        quantiddy,
-                        itemFocused.item_price,
-                        itemFocused.totalPrice,
-                        itemFocused.item_img_Link
-                      )
-                }
-              >
-                  Add to cart
-              </button>
-            </div>
-            <p>Total: ${itemFocused.totalPrice.toFixed(2)}</p>
-                    <button onClick={() => closeItem()}>Close</button>
-                    </div>
-            </div>
-
-              */}
-          {menu.map((item) => (
-            <div className="item-container" key={item.item_ID}>
-              <div className="line">
-                <div className="shadow"></div>
-              </div>
-              <img
-                src={item.item_img_Link}
-                className="item-img"
-                alt={item.item_name}
-              />
-              <h1 className="item-name"> {item.item_name}</h1>
-              <div className="user-inputs">
-                <input
-                  type="number"
-                  className="display-quantity"
-                  id={"quantity" + item.item_ID}
-                  onChange={(e) =>
-                    handleChange(
-                      item.item_ID,
-                      parseInt(e.target.value),
-                      item.item_price
-                    )
-                  }
+          <h2>Entrees</h2>
+          <div className="sectionTitle">
+            {menu.map((item) => (
+              <div className="item-container" key={item.item_ID}>
+                <h3 className="item-name"> {item.item_name}</h3>
+                <img
+                  src={item.item_img_Link}
+                  className="item-img"
+                  alt={item.item_name}
                 />
-                <div
-                  className="submit-order"
-                  onClick={() => {
-                    if (
-                      document.getElementById("quantity" + item.item_ID).value <
-                        0 ||
-                      document.getElementById("quantity" + item.item_ID)
-                        .value == 0 ||
-                      isNaN(
-                        document.getElementById("quantity" + item.item_ID).value
-                      )
-                    ) {
-                      alert("Please enter a valid quantity");
-                    } else {
-                      updateOrder(
+
+                <div className="user-inputs">
+                  <input
+                    type="number"
+                    className="display-quantity"
+                    id={"quantity" + item.item_ID}
+                    onChange={(e) =>
+                      handleChange(
                         item.item_ID,
-                        item.item_name,
-                        parseInt(
-                          document.getElementById("quantity" + item.item_ID)
-                            .value
-                        ),
-                        item.item_price,
-                        item.totalPrice,
-                        item.item_img_Link
-                      );
-                      console.log(
-                        "value: " +
-                          document.getElementById("quantity" + item.item_ID)
-                            .value
-                      );
-                      console.log(
-                        "item: " +
-                          item.item_name +
-                          " Quantity: " +
-                          document.getElementById("quantity" + item.item_ID)
-                            .value
-                      );
-                      clearInput(item.item_ID);
-                      console.log(item.quantity);
+                        parseInt(e.target.value),
+                        item.item_price
+                      )
                     }
-                  }}
-                >
-                  Add to Cart
+                  />
+                  <div
+                    className="submit-order"
+                    onClick={() => {
+                      if (
+                        document.getElementById("quantity" + item.item_ID)
+                          .value < 0 ||
+                        document.getElementById("quantity" + item.item_ID)
+                          .value === 0 ||
+                        isNaN(
+                          document.getElementById("quantity" + item.item_ID)
+                            .value
+                        )
+                      ) {
+                        alert("Please enter a valid quantity");
+                      } else {
+                        updateOrder(
+                          item.item_ID,
+                          item.item_name,
+                          parseInt(
+                            document.getElementById("quantity" + item.item_ID)
+                              .value
+                          ),
+                          item.item_price,
+                          item.totalPrice,
+                          item.item_img_Link
+                        );
+                        console.log(
+                          "value: " +
+                            document.getElementById("quantity" + item.item_ID)
+                              .value
+                        );
+                        console.log(
+                          "item: " +
+                            item.item_name +
+                            " Quantity: " +
+                            document.getElementById("quantity" + item.item_ID)
+                              .value
+                        );
+                        clearInput(item.item_ID);
+                        console.log(item.quantity);
+                      }
+                    }}
+                  >
+                    Add to Cart
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
-        <Link className="addBtn" to="/addProducts">
-          Add Item
-        </Link>
       </div>
     </>
   );

@@ -15,8 +15,7 @@ const Checkout = () => {
   const deleteItem = useStore((state) => state.deleteItem);
   const incrementItem = useStore((state) => state.incrementItem);
   const decrementItem = useStore((state) => state.decrementItem);
-  const [clickUser, setClickUser] = useState(true);
-  const [clickCart, setClickCart] = useState(false);
+
   const [customerName, setName] = useState("");
   const [customerNumber, setNumber] = useState("");
   const [customerMSG, setMsg] = useState();
@@ -41,14 +40,6 @@ const Checkout = () => {
     clearDate();
   };
 
-  const toggleUserInfo = () => {
-    setClickUser(!clickUser);
-  };
-
-  const toggleUserCart = () => {
-    setClickCart(!clickCart);
-  };
-
   const toggleCash = () => {
     setCash(!cash);
     setZelle(false);
@@ -64,7 +55,7 @@ const Checkout = () => {
       alert("The cart is empty");
     } else if (customerName.length < 1) {
       alert("Please enter your name");
-    } else if (customerNumber.length != 10) {
+    } else if (customerNumber.length !== 10) {
       alert("Please enter a valid phone number");
     } else if (cash === false && zelle === false) {
       alert("Please select a payment method");
@@ -86,16 +77,13 @@ const Checkout = () => {
   return (
     <>
       <Navbar />
-      <div className="checkout">
-        <div className="Info">
+      <div className="checkoutCart bg">
+        <div className="leftContainer containerSize">
           <div className="dropdownHeader">
-            <div className="dropdownTitle" onClick={() => toggleUserCart()}>
-              <h4>Cart</h4>
-              <i className={clickCart ? "fa fa-sort-down" : "fa fa-sort-up"} />
-            </div>
-            <div className={clickCart ? "Input active" : "cart"}>
+            <h4>Cart</h4>
+            <div className={"cart"}>
               <button onClick={() => clearCart()}>Clear Cart</button>
-              <hr />
+
               {order.length > 0 ? (
                 order.map((item, index) => (
                   <div key={index}>
@@ -138,16 +126,11 @@ const Checkout = () => {
           </div>
         </div>
 
-        <div className="Info">
+        <div className="rightContainer containerSize">
           <div className="dropdownHeader">
-            <div className="dropdownTitle" onClick={() => toggleUserInfo()}>
-              <h4>Customer Information</h4>
-              <i className={clickUser ? "fa fa-sort-down" : "fa fa-sort-up"} />
-            </div>
+            <h4>Customer Information</h4>
 
-            <div
-              className={clickUser ? "Input active customer" : "CustomerInfo"}
-            >
+            <div className={"CustomerInfo"}>
               <label htmlFor="fname">Full Name: </label>
               <input
                 type="form"
@@ -185,26 +168,29 @@ const Checkout = () => {
                 name="msg"
                 onChange={(e) => setMsg(e.target.value)}
               />
+
+              <h4>Pickup Date:</h4>
+              <DatePicker
+                selected={date}
+                onChange={(date) => setDate(date)}
+                filterDate={(date) =>
+                  date.getDay() !== 1 &&
+                  date.getDay() !== 2 &&
+                  date.getDay() !== 3 &&
+                  date.getDay() !== 4 &&
+                  date.getDay() !== 5
+                }
+                minDate={new Date()}
+                dateFormat="MM/dd/yyyy"
+                withPortal
+              />
+              <h3>
+                Subtotal: ${order.length > 0 ? Number(subtotal).toFixed(2) : 0}
+              </h3>
+              <button onClick={handleSubmit}>Submit reservation </button>
             </div>
           </div>
         </div>
-        <h4>Pickup Date:</h4>
-        <DatePicker
-          selected={date}
-          onChange={(date) => setDate(date)}
-          filterDate={(date) =>
-            date.getDay() !== 1 &&
-            date.getDay() !== 2 &&
-            date.getDay() !== 3 &&
-            date.getDay() !== 4 &&
-            date.getDay() !== 5
-          }
-          minDate={new Date()}
-          dateFormat="MM/dd/yyyy"
-          withPortal
-        />
-        <h3>Subtotal: ${order.length > 0 ? Number(subtotal).toFixed(2) : 0}</h3>
-        <button onClick={handleSubmit}>Submit reservation </button>
       </div>
     </>
   );
