@@ -21,6 +21,21 @@ router.get("/requests", async (req, res) => {
   }
 });
 
+router.get("/products/editItem/:id", async (req, res) => {
+  const item = req.params.id;
+  const query = "SELECT * FROM ALFE.menu WHERE item_ID = ?;";
+
+  try {
+    db.query(query, item, (err, result) => {
+      if (err) throw err;
+      res.send(result);
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("An error occurred");
+  }
+});
+
 router.post("/acceptRequest", async (req, res) => {
   const requestNumber = req.body.requestNum;
 
@@ -230,14 +245,19 @@ router.post("/addProducts", (req, res) => {
   res.sendStatus(200);
 });
 
-router.post("/deleteProduct", (req, res) => {
+router.post("/deleteItem", (req, res) => {
   const item_ID = req.body.itemID;
+  const item_name = req.body.itemName;
 
-  db.query("DELETE FROM menu WHERE item_ID=?", [item_ID], (err, result) => {
-    if (err) {
-      console.log(err.response.data);
+  db.query(
+    "DELETE FROM menu WHERE item_ID=? AND item_name=?",
+    [item_ID, item_name],
+    (err, result) => {
+      if (err) {
+        console.log(err.response.data);
+      }
     }
-  });
+  );
 
   res.sendStatus(200);
 });
