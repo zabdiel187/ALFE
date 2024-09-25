@@ -21,7 +21,8 @@ form {
   color: white;
   padding: 3px 10px;
   border-radius: 25px;
-  scale: 150%;
+  text-decoration: none;
+  font-size: 25px;
 }
 
 .addItemsContainer .menuItems {

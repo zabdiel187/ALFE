@@ -9,7 +9,8 @@ import Confirmation from "./pages/confirmation";
 import Login from "./common/login";
 import Admin from "./pages/admin/admin";
 import Requests from "./pages/admin/requests";
-
+import NewItem from "./pages/admin/newItem";
+import EditItem from "./pages/admin/editItem";
 import Home from "./pages/home";
 
 /*
@@ -36,7 +37,9 @@ const App = () => {
 
         <Route path="/home" element={<Home />} />
         <Route path="/" element={<Home />} />
-        <Route path="/admin/addProducts" element={<AddProducts />} />
+        <Route path="/admin/products" element={<AddProducts />} />
+        <Route path="/admin/products/newItem" element={<NewItem />} />
+        <Route path="/admin/products/editItem" element={<EditItem />} />
         <Route path="/menu" element={<Menu />} />
         <Route path="/cart" element={<Checkout />} />
         <Route path="/confirmation" element={<Confirmation />} />
