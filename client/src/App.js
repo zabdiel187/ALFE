@@ -12,6 +12,7 @@ import Requests from "./pages/admin/requests";
 import NewItem from "./pages/admin/newItem";
 import EditItem from "./pages/admin/editItem";
 import Home from "./pages/home";
+import SelectedItem from "./pages/selectedItem";
 
 /*
 import Home from "./pages/home";
@@ -41,6 +42,7 @@ const App = () => {
         <Route path="/admin/products/newItem" element={<NewItem />} />
         <Route path="/admin/products/editItem" element={<EditItem />} />
         <Route path="/menu" element={<Menu />} />
+        <Route path="/menu/:itemID/:itemName" element={<SelectedItem />} />
         <Route path="/cart" element={<Checkout />} />
         <Route path="/confirmation" element={<Confirmation />} />
         <Route path="/admin/orders" element={<Orders />} />

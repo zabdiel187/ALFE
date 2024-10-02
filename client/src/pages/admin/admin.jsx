@@ -10,7 +10,7 @@ const Admin = () => {
       <div className="adminButtonsContainer">
         <button
           onClick={() => {
-            navigate("/admin/addProducts");
+            navigate("/admin/products");
           }}
         >
           Add Item

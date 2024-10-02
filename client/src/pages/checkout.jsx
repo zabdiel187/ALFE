@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useStore } from "../stores/MenuStore";
 import Axios from "axios";
 import "./checkout.css";
@@ -28,17 +28,6 @@ const Checkout = () => {
   const navigate = useNavigate();
 
   const SERVER = "http://localhost:3001";
-
-  useEffect(() => {
-    window.addEventListener("beforeunload", alertUser);
-    return () => {
-      window.removeEventListener("beforeunload", alertUser);
-    };
-  }, []);
-
-  const alertUser = (e) => {
-    clearDate();
-  };
 
   const toggleCash = () => {
     setCash(!cash);
@@ -78,6 +67,18 @@ const Checkout = () => {
     <>
       <Navbar />
       <div className="checkoutCart bg">
+        <div className="orderGuidelines bg">
+          <h1>How ordering works: </h1>
+          <p>
+            We might not always be able to take every order because we’re a
+            small side business with limited time and resources. Just send us
+            your order and the pickup date you have in mind, and we’ll let you
+            know if we can make it happen. We really appreciate your patience
+            and understanding as we do our best to accommodate as many orders as
+            possible. Your support means a lot to us, and we’re grateful for
+            your business. Thanks for understanding!
+          </p>
+        </div>
         <div className="leftContainer containerSize">
           <div className="dropdownHeader">
             <h4>Cart</h4>

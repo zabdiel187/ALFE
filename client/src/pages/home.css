@@ -1,8 +1,3 @@
-:root {
-  --navbar-color: black;
-  --navbar-text: white;
-}
-
 body {
   margin-top: 0;
   padding: 0;
@@ -15,11 +10,12 @@ body {
 
   margin: 0;
   padding: 0;
-  height: 95vh;
+  height: 100vh;
 
-  background-image: url("https://cdn.discordapp.com/attachments/1106769037695918162/1281014652297285756/filipino-bbq.png?ex=66de21dd&is=66dcd05d&hm=8e665afb89295bb75a9fb5cf7fc754ac2e50677ed12f45395aad5996cecc59c0&");
+  background-image: url("https://lh3.googleusercontent.com/pw/AP1GczMKHdYngh97M2jXhwmqnNNmAE2Yl5bUuJObRjUFxIl1iaczxi-CMSaaLG41lOzdaPCHsKnPChhOOXRYMRIK5cBWXN1-FMhZE_J30YRaDP97DN6wAVw=w2400");
   background-repeat: no-repeat;
   background-size: cover;
+  background-position: center;
   background-color: black;
 
   position: fixed;
@@ -90,6 +86,9 @@ body {
   padding-top: 5vh;
 
   height: 500vh;
+
+  border-top-right-radius: 25px;
+  border-top-left-radius: 25px;
 }
 
 .aboutUsContainer {
@@ -124,6 +123,11 @@ body {
   animation-timeline: --revealing-image;
 
   animation-range: entry 20% cover 40%;
+}
+
+.aboutUsImg img {
+  width: 40vw;
+  border-radius: 20px;
 }
 .aboutUsContent {
   grid-area: 2 / 2 / 3 / 3;

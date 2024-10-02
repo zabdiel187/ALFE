@@ -55,11 +55,7 @@ const AddProducts = () => {
           <div className="item-containers" key={item.item_ID}>
             <h1>{item.item_name}</h1>
             <p>${item.item_price}</p>
-            <img
-              src={"https://via.placeholder.com/150"}
-              className="itemImage"
-              alt="img"
-            />
+            <img src={item.item_img_Link} className="itemImage" alt="img" />
 
             <div className="buttonContainer">
               <button

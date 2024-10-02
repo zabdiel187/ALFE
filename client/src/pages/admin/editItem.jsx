@@ -5,7 +5,15 @@ import Axios from "axios";
 
 const EditItem = () => {
   const serverEndpoint = "http://localhost:3001";
-  const [item, setItem] = useState([]);
+  const [item, setItem] = useState([
+    {
+      item_ID: "",
+      item_description: "",
+      item_img_Link: "",
+      item_name: "",
+      item_price: "",
+    },
+  ]);
   const [isLoading, setIsLoading] = useState(true);
   const getSelectedId = useAdminStore((state) => state.selectedId);
 
@@ -28,12 +36,25 @@ const EditItem = () => {
   }, [getSelectedId]);
 
   const handleInputChange = (e, field) => {
-    setItem({ ...item, [field]: e.target.textContent });
+    setItem((prevItem) => {
+      const updatedItem = { ...prevItem[0], [field]: e.target.textContent };
+      return [updatedItem];
+    });
   };
 
-  const handleSave = () => {
-    console.log(item);
-    navigate("/admin/products");
+  const handleSave = async (item) => {
+    try {
+      Axios.post(serverEndpoint + "/admin/products/editItem/updateItem", {
+        id: item[0].item_ID,
+        item_name: item[0].item_name,
+        item_ingredients: item[0].item_ingredients,
+        item_description: item[0].item_description,
+        item_price: item[0].item_price,
+      });
+      navigate("/admin/products");
+    } catch (err) {
+      alert("Something went wrong in saving item.");
+    }
   };
 
   const handleCancel = () => {
@@ -42,7 +63,7 @@ const EditItem = () => {
 
   const handleDelete = () => {
     try {
-      Axios.post(serverEndpoint + "/admin/deleteItem", {
+      Axios.post(serverEndpoint + "/admin/products/deleteItem", {
         itemID: item[0].item_ID,
         itemName: item[0].item_name,
       }).then(() => {
@@ -50,7 +71,7 @@ const EditItem = () => {
         navigate("/admin/products");
       });
     } catch (err) {
-      alert("Something went wrong");
+      alert("Something went wrong in deleting item.");
       console.log(err);
     }
   };
@@ -63,7 +84,7 @@ const EditItem = () => {
           <h1
             contentEditable
             suppressContentEditableWarning
-            onInput={(e) => handleInputChange(e, "item_name")}
+            onBlur={(e) => handleInputChange(e, "item_name")}
           >
             {item[0].item_name}
           </h1>
@@ -72,7 +93,7 @@ const EditItem = () => {
           <p
             contentEditable
             suppressContentEditableWarning
-            onInput={(e) => handleInputChange(e, "item_ingredients")}
+            onBlur={(e) => handleInputChange(e, "item_ingredients")}
           >
             {item[0].item_ingredients}
           </p>
@@ -80,7 +101,7 @@ const EditItem = () => {
           <p
             contentEditable
             suppressContentEditableWarning
-            onInput={(e) => handleInputChange(e, "item_description")}
+            onBlur={(e) => handleInputChange(e, "item_description")}
           >
             {item[0].item_description}
           </p>
@@ -90,14 +111,14 @@ const EditItem = () => {
             <span
               contentEditable
               suppressContentEditableWarning
-              onInput={(e) => handleInputChange(e, "item_price")}
+              onBlur={(e) => handleInputChange(e, "item_price")}
             >
               {item[0].item_price}
             </span>
           </p>
 
           <button onClick={handleCancel}>Cancel Changes</button>
-          <button onClick={handleSave}>Save Changes</button>
+          <button onClick={() => handleSave(item)}>Save Changes</button>
         </div>
       </>
     );

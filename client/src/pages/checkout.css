@@ -1,6 +1,15 @@
 :root {
-  --checkout-bgc: #2303db;
   --checkout-bgc2: #f1f0f0;
+}
+
+.orderGuidelines {
+  position: absolute;
+  left: 2vw;
+  width: 63vw;
+  top: 3vh;
+  border-radius: 25px;
+  padding: 10px 10px;
+  font-size: 20px;
 }
 
 .checkoutCart {
@@ -14,7 +23,7 @@
 }
 
 .bg {
-  background-color: var(--checkout-bgc);
+  background-color: var(--checkout-bgc2);
 }
 
 .containerSize {
@@ -27,6 +36,7 @@
 .leftContainer {
   width: 63vw;
   left: 2vw;
+  top: 43vh;
   height: auto;
 }
 

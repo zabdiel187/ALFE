@@ -8,6 +8,8 @@ const MenuStore = (set, get) => ({
   subtotal: 0,
   isEmpty: true,
   error: "",
+  selectedItemID: null,
+  selectedItemName: null,
   setDate: (input) => {
     set({ date: input }, false, "Date updated");
   },
@@ -35,7 +37,7 @@ const MenuStore = (set, get) => ({
                 order.id === newItem.id
                   ? {
                       ...order,
-                      quantity: order.quantity + (newItem.quantity),
+                      quantity: order.quantity + newItem.quantity,
                       price: order.price + newItem.price,
                     }
                   : order
@@ -164,6 +166,9 @@ const MenuStore = (set, get) => ({
     } catch (err) {
       set({ error: err.message, isLoading: false }, false, "Error");
     }
+  },
+  setSelectedId: (itemID, itemName) => {
+    set({ selectedItemId: itemID, selectedItemName: itemName }, false);
   },
 });
 

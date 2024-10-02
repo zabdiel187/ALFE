@@ -10,4 +10,22 @@ router.get("/", (req, res) => {
   });
 });
 
+router.get("/:id/:itemName", (req, res) => {
+  const itemID = req.params.id;
+  const itemName = req.params.itemName;
+
+  db.query(
+    "SELECT * FROM menu WHERE item_ID = ? AND item_name = ?",
+    [itemID, itemName],
+    (err, result) => {
+      if (err) throw err;
+      if (result.length === 0) {
+        res.status(200).send(null);
+      } else {
+        res.status(200).send(result);
+      }
+    }
+  );
+});
+
 module.exports = router;

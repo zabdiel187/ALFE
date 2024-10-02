@@ -42,25 +42,33 @@ router.post("/acceptRequest", async (req, res) => {
   const updateStatus =
     "UPDATE requests SET status = 'Accepted' WHERE requestNum = (?);";
 
-  try {
-    db.query(updateStatus, [requestNumber], (err, result) => {
-      if (err) throw err;
-      res.send(result);
-    });
-  } catch (err) {
-    console.error(err);
-  }
-
   const query =
     "INSERT INTO orders (requestNum, dateOrdered, customerName, customerNumber, cart, customerMsg, subtotal, pickupDate, paymentType, status, isPaid) " +
     "SELECT requestNum, dateOrdered, customerName, customerNumber, cart, customerMsg, subtotal, pickupDate, paymentType, status, 0 AS isPaid " +
     "FROM requests " +
     "WHERE requestNum = (?);";
 
-  db.query(query, [requestNumber], (err, result) => {
-    if (err) throw err;
-    res.send(result);
-  });
+  try {
+    // First query
+    await new Promise((resolve, reject) => {
+      db.query(updateStatus, [requestNumber], (err, result) => {
+        if (err) return reject(err);
+        resolve(result);
+      });
+    });
+
+    // Second query
+    await new Promise((resolve, reject) => {
+      db.query(query, [requestNumber], (err, result) => {
+        if (err) return reject(err);
+        resolve(result);
+      });
+    });
+
+    res.send({ message: "Request accepted and order created successfully." });
+  } catch (err) {
+    console.error(err);
+  }
 });
 
 router.post("/rejectRequest", (req, res) => {
@@ -74,8 +82,12 @@ router.post("/rejectRequest", (req, res) => {
     "WHERE requestNum = (?);";
 
   db.query(query, [rejectReason, requestNumber], (err, result) => {
-    if (err) throw err;
-    res.send(result);
+    if (err) {
+      console.log(err);
+      return res.status(500).send({
+        error: "An error occurred while processing the request.",
+      });
+    }
   });
 });
 
@@ -222,7 +234,7 @@ router.post("/updateMenuOrderUp", (req, res) => {
   );
 });
 
-router.post("/addProducts", (req, res) => {
+router.post("/products/newItem", (req, res) => {
   const item_name = req.body.item_name;
   const item_ingredients = req.body.item_ingredients;
   const item_description = req.body.item_description;
@@ -233,19 +245,26 @@ router.post("/addProducts", (req, res) => {
     "INSERT INTO menu(item_name, item_ingredients, item_description, item_price, item_img_Link) VALUES (?,?,?,?,?);";
   db.query(
     sqlInsert,
-    [item_name, item_ingredients, item_description, item_price, item_img_Link],
+    [
+      item_name,
+      item_ingredients,
+      item_description,
+      item_price,
+      JSON.stringify(item_img_Link),
+    ],
     (err, result) => {
       console.log(item_name + " was added to the menu");
       if (err) {
         console.log(err.response.data);
+        return res.status(500).send("Error adding item");
       }
     }
   );
 
-  res.sendStatus(200);
+  res.status(201).send("Item added successfully");
 });
 
-router.post("/deleteItem", (req, res) => {
+router.post("/products/deleteItem", (req, res) => {
   const item_ID = req.body.itemID;
   const item_name = req.body.itemName;
 
@@ -260,6 +279,30 @@ router.post("/deleteItem", (req, res) => {
   );
 
   res.sendStatus(200);
+});
+
+router.post("/products/editItem/updateItem", async (req, res) => {
+  const itemId = req.body.id;
+  const item_name = req.body.item_name;
+  const item_ingredients = req.body.item_ingredients;
+  const item_description = req.body.item_description;
+  const item_price = req.body.item_price;
+  const query =
+    "UPDATE ALFE.menu SET item_name = ?, item_ingredients = ?, item_description = ?, item_price = ? WHERE item_ID = ? ";
+
+  try {
+    db.query(
+      query,
+      [item_name, item_ingredients, item_description, item_price, itemId],
+      (err, result) => {
+        if (err) console.log(err);
+        res.status(200).send("Item updated successfully");
+      }
+    );
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("An error occured in updating the item");
+  }
 });
 
 module.exports = router;

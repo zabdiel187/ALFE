@@ -1,5 +1,6 @@
 import Axios from "axios";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const NewItem = () => {
   const [item_name, setName] = useState("");
@@ -9,31 +10,39 @@ const NewItem = () => {
   const [item_img_Link, setImgLink] = useState("");
 
   const serverEndpoint = "http://localhost:3001";
+  const navigate = useNavigate();
 
   const submitForm = async () => {
     try {
-      Axios.post(serverEndpoint + "/admin/products/newItem", {
-        item_name: item_name,
-        item_ingredients: item_ingredients,
-        item_description: item_description,
-        item_price: item_price,
-        item_img_Link: item_img_Link,
-      }).then(() => alert("item added"));
+      const response = await Axios.post(
+        serverEndpoint + "/admin/products/newItem",
+        {
+          item_name: item_name,
+          item_ingredients: item_ingredients,
+          item_description: item_description,
+          item_price: item_price,
+          item_img_Link: item_img_Link,
+        }
+      );
+      alert(response.data);
+      navigate("/admin/products");
     } catch (error) {
       console.log(error);
+      alert("Error adding item");
     }
   };
+
   return (
     <>
       <div className="newItem">
-        <div className="product">
-          Img:
+        <div>
           <input
             type="text"
             placeholder="Img discord link"
             className="image_input"
             onChange={(e) => setImgLink(e.target.value)}
           />
+          ;
         </div>
         <div className="product">
           Name:
