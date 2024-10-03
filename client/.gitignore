@@ -93,3 +93,5 @@ node_modules/
 .DS_Store
 
 SQL-QUERIES/
+
+.config.js

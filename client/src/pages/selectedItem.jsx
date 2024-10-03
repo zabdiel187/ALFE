@@ -25,6 +25,9 @@ const SelectedItem = () => {
     getItem();
   }, [itemID, itemName]);
 
+  const unstring = (string) => {
+    return JSON.parse(string);
+  };
   return (
     <>
       {item === null ? (
@@ -36,6 +39,13 @@ const SelectedItem = () => {
           <Navbar />
           {item.map((item) => (
             <div key={item.item_ID}>
+              <div>
+                {unstring(item.item_img_Link).map((images) => (
+                  <div key={images.imgId}>
+                    <img src={images.link} alt={`img${images.imgId}`} />
+                  </div>
+                ))}
+              </div>
               <h1> {item.item_name}</h1>
               <p>{item.item_ingredients}</p>
               <p>{item.item_description}</p>

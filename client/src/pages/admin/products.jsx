@@ -1,4 +1,4 @@
-import "./addProducts.css";
+import "./products.css";
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Axios from "axios";
@@ -26,7 +26,7 @@ const AddProducts = () => {
 
   const handleDelete = (item_ID, item_name) => {
     try {
-      Axios.post(serverEndpoint + "/admin/deleteItem", {
+      Axios.post(serverEndpoint + "/admin/products/deleteItem", {
         itemID: item_ID,
         itemName: item_name,
       }).then(() => {

@@ -62,6 +62,10 @@ const Menu = () => {
     });
   };
 
+  const unstring = (string) => {
+    return JSON.parse(string);
+  };
+
   return (
     <>
       <Navbar />
@@ -80,11 +84,10 @@ const Menu = () => {
                 >
                   <h3 className="item-name"> {item.item_name}</h3>
                   <img
-                    src={item.item_img_Link}
+                    src={unstring(item.item_img_Link)[0].link}
                     className="item-img"
                     alt={item.item_name}
                   />
-
                   <div className="user-inputs">
                     <input
                       type="number"

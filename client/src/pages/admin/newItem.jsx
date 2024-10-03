@@ -1,5 +1,5 @@
 import Axios from "axios";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const NewItem = () => {
@@ -7,7 +7,8 @@ const NewItem = () => {
   const [item_ingredients, setIngredients] = useState("");
   const [item_description, setDescription] = useState("");
   const [item_price, setPrice] = useState("");
-  const [item_img_Link, setImgLink] = useState("");
+  const [imgCounter, incrementImgCounter] = useState(1);
+  const [imgInputs, setImgInputs] = useState([]);
 
   const serverEndpoint = "http://localhost:3001";
   const navigate = useNavigate();
@@ -21,7 +22,7 @@ const NewItem = () => {
           item_ingredients: item_ingredients,
           item_description: item_description,
           item_price: item_price,
-          item_img_Link: item_img_Link,
+          item_img_Link: imgInputs,
         }
       );
       alert(response.data);
@@ -32,17 +33,48 @@ const NewItem = () => {
     }
   };
 
+  const testSubmit = () => {
+    console.log(imgInputs);
+  };
+
+  useEffect(() => {
+    const initialImgInputs = [];
+    for (let i = 0; i < imgCounter; i++) {
+      initialImgInputs.push({ imgId: i, link: "" });
+    }
+    setImgInputs(initialImgInputs);
+  }, [imgCounter]);
+
   return (
     <>
       <div className="newItem">
         <div>
-          <input
-            type="text"
-            placeholder="Img discord link"
-            className="image_input"
-            onChange={(e) => setImgLink(e.target.value)}
-          />
-          ;
+          <button
+            onClick={() =>
+              imgCounter < 1
+                ? incrementImgCounter(0)
+                : incrementImgCounter(imgCounter - 1)
+            }
+          >
+            -
+          </button>
+          <button onClick={() => incrementImgCounter(imgCounter + 1)}>+</button>
+        </div>
+        <div>
+          {imgInputs.map((input, index) => (
+            <input
+              key={input.imgId}
+              type="text"
+              placeholder={`Image ${index + 1}`}
+              value={input.link}
+              onChange={(e) => {
+                const newImgInputs = [...imgInputs];
+                newImgInputs[index].link = e.target.value;
+                setImgInputs(newImgInputs);
+              }}
+            />
+          ))}
+          <button onClick={testSubmit}>Test</button>
         </div>
         <div className="product">
           Name:
