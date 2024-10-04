@@ -287,13 +287,21 @@ router.post("/products/editItem/updateItem", async (req, res) => {
   const item_ingredients = req.body.item_ingredients;
   const item_description = req.body.item_description;
   const item_price = req.body.item_price;
+  const item_img_Link = req.body.item_img_Link;
   const query =
-    "UPDATE ALFE.menu SET item_name = ?, item_ingredients = ?, item_description = ?, item_price = ? WHERE item_ID = ? ";
+    "UPDATE ALFE.menu SET item_name = ?, item_ingredients = ?, item_description = ?, item_price = ?, item_img_Link = ? WHERE item_ID = ? ";
 
   try {
     db.query(
       query,
-      [item_name, item_ingredients, item_description, item_price, itemId],
+      [
+        item_name,
+        item_ingredients,
+        item_description,
+        item_price,
+        item_img_Link,
+        itemId,
+      ],
       (err, result) => {
         if (err) console.log(err);
         res.status(200).send("Item updated successfully");

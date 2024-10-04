@@ -43,6 +43,10 @@ const AddProducts = () => {
     navigate("/admin/products/editItem");
   };
 
+  const unstring = (string) => {
+    return JSON.parse(string);
+  };
+
   return (
     <div className="addItemsContainer">
       <div className="addProductBtnContainer">
@@ -55,7 +59,11 @@ const AddProducts = () => {
           <div className="item-containers" key={item.item_ID}>
             <h1>{item.item_name}</h1>
             <p>${item.item_price}</p>
-            <img src={item.item_img_Link} className="itemImage" alt="img" />
+            <img
+              src={unstring(item.item_img_Link)[0].link}
+              className="itemImage"
+              alt="img"
+            />
 
             <div className="buttonContainer">
               <button
