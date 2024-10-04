@@ -49,6 +49,7 @@ const AddProducts = () => {
 
   return (
     <div className="addItemsContainer">
+      <button onClick={() => navigate("/admin")}>Go Back</button>
       <div className="addProductBtnContainer">
         <Link className="newItemBtn" to="/admin/products/newItem">
           Add new Item

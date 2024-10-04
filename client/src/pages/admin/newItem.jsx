@@ -48,6 +48,7 @@ const NewItem = () => {
   return (
     <>
       <div className="newItem">
+        <button onClick={() => navigate("/admin/products")}>Go Back</button>
         <div>
           <button
             onClick={() =>
