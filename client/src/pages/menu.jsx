@@ -3,24 +3,26 @@ import "./menu.css";
 import { useStore } from "../stores/MenuStore";
 import Navbar from "../common/navbar";
 import { useNavigate } from "react-router-dom";
+import { useAdminStore } from "../stores/adminStore";
 
 const Menu = () => {
   const [menu, setMenu] = useState([]);
   //const [quantiddy, setQuantity] = useState(0);
 
   const setSelectedId = useStore((state) => state.setSelectedId);
-  const SERVER = "http://localhost:3001";
+  const backendPath = useAdminStore((state) => state.BACKEND);
+
   const navigate = useNavigate();
 
   useEffect(() => {
     const getMenu = async () => {
-      const res = await fetch(SERVER + "/menu");
+      const res = await fetch(backendPath + "/menu");
       const getData = await res.json();
       setMenu(getData.map((item) => ({ ...item, quantity: 0, totalPrice: 0 })));
     };
 
     getMenu();
-  }, []);
+  }, [backendPath]);
 
   const handleChange = (itemId, quantity, price) => {
     // setQuantity(quantity);

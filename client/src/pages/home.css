@@ -85,7 +85,7 @@ body {
   top: 95vh;
   padding-top: 5vh;
 
-  height: 500vh;
+  height: auto;
 
   border-top-right-radius: 25px;
   border-top-left-radius: 25px;

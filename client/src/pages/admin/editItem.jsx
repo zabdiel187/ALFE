@@ -5,7 +5,8 @@ import Axios from "axios";
 import "./editItem.css";
 
 const EditItem = () => {
-  const serverEndpoint = "http://localhost:3001";
+  const backendPath = useAdminStore((state) => state.BACKEND);
+
   const [item, setItem] = useState([
     {
       item_ID: "",
@@ -27,7 +28,7 @@ const EditItem = () => {
     const getItem = async () => {
       try {
         const res = await fetch(
-          `${serverEndpoint}/admin/products/editItem/${getSelectedId}`
+          `${backendPath}/admin/products/editItem/${getSelectedId}`
         );
         const getItem = await res.json();
         setItem(getItem);
@@ -38,7 +39,7 @@ const EditItem = () => {
     };
 
     getItem();
-  }, [getSelectedId]);
+  }, [getSelectedId, backendPath]);
 
   useEffect(() => {
     if (!isLoading && !hasFetched) {
@@ -64,7 +65,7 @@ const EditItem = () => {
   const handleSave = async (item, imgInputs) => {
     try {
       const images = JSON.stringify(imgInputs);
-      Axios.post(serverEndpoint + "/admin/products/editItem/updateItem", {
+      Axios.post(backendPath + "/admin/products/editItem/updateItem", {
         id: item[0].item_ID,
         item_name: item[0].item_name,
         item_ingredients: item[0].item_ingredients,
@@ -84,7 +85,7 @@ const EditItem = () => {
 
   const handleDelete = () => {
     try {
-      Axios.post(serverEndpoint + "/admin/products/deleteItem", {
+      Axios.post(backendPath + "/admin/products/deleteItem", {
         itemID: item[0].item_ID,
         itemName: item[0].item_name,
       }).then(() => {

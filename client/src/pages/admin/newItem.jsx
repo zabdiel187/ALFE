@@ -1,6 +1,7 @@
 import Axios from "axios";
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAdminStore } from "../../stores/adminStore";
 
 const NewItem = () => {
   const [item_name, setName] = useState("");
@@ -9,14 +10,14 @@ const NewItem = () => {
   const [item_price, setPrice] = useState("");
   const [imgCounter, incrementImgCounter] = useState(1);
   const [imgInputs, setImgInputs] = useState([]);
+  const backendPath = useAdminStore((state) => state.BACKEND);
 
-  const serverEndpoint = "http://localhost:3001";
   const navigate = useNavigate();
 
   const submitForm = async () => {
     try {
       const response = await Axios.post(
-        serverEndpoint + "/admin/products/newItem",
+        backendPath + "/admin/products/newItem",
         {
           item_name: item_name,
           item_ingredients: item_ingredients,

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Axios from "axios";
 import "./orders.css";
 import { useNavigate } from "react-router-dom";
+import { useAdminStore } from "../../stores/adminStore";
 
 // import Login from "../../common/login";
 
@@ -17,12 +18,12 @@ const Orders = () => {
   // const clientId =
   //   "703742405077-l6tdbv316s305bmtahmj5u9lgllkmvar.apps.googleusercontent.com";
 
-  const SERVER = "http://localhost:3001";
+  const backendPath = useAdminStore((state) => state.BACKEND);
 
   useEffect(() => {
     const getOrders = async () => {
       try {
-        const res = await fetch(SERVER + "/admin/orders?search=" + search);
+        const res = await fetch(backendPath + "/admin/orders?search=" + search);
         const getOrders = await res.json();
         setOrders(getOrders.map((order) => ({ ...order })));
       } catch (err) {
@@ -31,13 +32,13 @@ const Orders = () => {
     };
 
     getOrders();
-  }, [search]);
+  }, [search, backendPath]);
 
   const handleToggle = (order) => {
     if (order.isPaid) {
       openUncheckHandler(order);
     } else {
-      Axios.post(SERVER + "/admin/updateOrders", {
+      Axios.post(backendPath + "/admin/updateOrders", {
         orderNum: order.orderNum,
         isPaid: !order.isPaid,
       });
@@ -53,7 +54,7 @@ const Orders = () => {
   };
 
   const uncheckOrder = (order) => {
-    Axios.post(SERVER + "/admin/updateOrders", {
+    Axios.post(backendPath + "/admin/updateOrders", {
       orderNum: order.orderNum,
       isPaid: !order.isPaid,
     }).then(setUncheckHandler(false));
@@ -69,7 +70,7 @@ const Orders = () => {
   };
 
   const deleTeOrder = (order) => {
-    Axios.post(SERVER + "/admin/deleteOrder", {
+    Axios.post(backendPath + "/admin/deleteOrder", {
       orderNum: order.orderNum,
     }).then(setAlertBoxOpen(false));
   };

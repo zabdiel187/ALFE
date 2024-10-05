@@ -12,21 +12,21 @@ const AddProducts = () => {
 
   const navigate = useNavigate();
 
-  const serverEndpoint = "http://localhost:3001";
+  const backendPath = useAdminStore((state) => state.BACKEND);
 
   useEffect(() => {
     const getMenu = async () => {
-      const res = await fetch(serverEndpoint + "/menu");
+      const res = await fetch(backendPath + "/menu");
       const getData = await res.json();
       setMenu(getData.map((item) => ({ ...item, quantity: 0, totalPrice: 0 })));
     };
 
     getMenu();
-  }, [menu]);
+  }, [menu, backendPath]);
 
   const handleDelete = (item_ID, item_name) => {
     try {
-      Axios.post(serverEndpoint + "/admin/products/deleteItem", {
+      Axios.post(backendPath + "/admin/products/deleteItem", {
         itemID: item_ID,
         itemName: item_name,
       }).then(() => {

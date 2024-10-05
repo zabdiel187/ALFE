@@ -8,6 +8,8 @@ const Admin = () => {
     <div className="adminPage">
       <h1> Admin Page</h1>
       <div className="adminButtonsContainer">
+        <button onClick={() => navigate("/")}>Home</button>
+
         <button
           onClick={() => {
             navigate("/admin/products");
