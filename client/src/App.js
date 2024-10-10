@@ -1,5 +1,8 @@
 import React from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, BrowserRouter } from "react-router-dom";
+import { GoogleOAuthProvider } from "@react-oauth/google";
+// import { useAdminStore } from "./stores/adminStore";
+// import { useState, useEffect } from "react";
 
 import AddProducts from "./pages/admin/products";
 import Menu from "./pages/menu";
@@ -14,43 +17,51 @@ import EditItem from "./pages/admin/editItem";
 import Home from "./pages/home";
 import SelectedItem from "./pages/selectedItem";
 
-/*
-import Home from "./pages/home";
-import { SignUp } from "./pages/signUp";
-import Login from "./pages/login";
-import CreateGroup from "./pages/createGroup";
-*/
-
-// Create a context to hold the authentication state
+import { AuthProvider } from "./contextAPIs/AuthProvider";
 
 const App = () => {
-  // const pull_name = (props) => {};
+  //  STORE CLIENT ID IN THE BACKEND SERVER
+  // const backendPath = useAdminStore((state) => state.BACKEND);
+  // const [googleClientId, setClientID] = useState();
+
+  // useEffect(() => {
+  //   const getClientId = async () => {
+  //     const res = await fetch(backendPath + "/admin/clientID");
+  //     const data = await res.json();
+  //     setClientID(data.clientId);
+  //   };
+
+  //   getClientId();
+  //   console.log("Client Id:");
+  //   console.log(googleClientId);
+  // }, [backendPath, googleClientId]);
+
+  const clientID =
+    "249707423528-286eblc2u30q6hb79a84j69923e5n1hq.apps.googleusercontent.com";
 
   return (
-    <>
-      <Routes>
-        {/*
-        <Route path="/" element={<Home />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/login" element={<Login name={pull_name} />} />
-        <Route path="/createGroup" element={<CreateGroup />} />
-        */}
+    <GoogleOAuthProvider clientId={clientID}>
+      <AuthProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/home" element={<Home />} />
+            <Route path="/" element={<Home />} />
+            <Route path="/menu" element={<Menu />} />
+            <Route path="/menu/:itemID/:itemName" element={<SelectedItem />} />
+            <Route path="/cart" element={<Checkout />} />
+            <Route path="/confirmation" element={<Confirmation />} />
 
-        <Route path="/home" element={<Home />} />
-        <Route path="/" element={<Home />} />
-        <Route path="/admin/products" element={<AddProducts />} />
-        <Route path="/admin/products/newItem" element={<NewItem />} />
-        <Route path="/admin/products/editItem" element={<EditItem />} />
-        <Route path="/menu" element={<Menu />} />
-        <Route path="/menu/:itemID/:itemName" element={<SelectedItem />} />
-        <Route path="/cart" element={<Checkout />} />
-        <Route path="/confirmation" element={<Confirmation />} />
-        <Route path="/admin/orders" element={<Orders />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/admin" element={<Admin />} />
-        <Route path="/admin/requests" element={<Requests />} />
-      </Routes>
-    </>
+            <Route path="/login" element={<Login />} />
+            <Route path="/admin" element={<Admin />} />
+            <Route path="/admin/requests" element={<Requests />} />
+            <Route path="/admin/orders" element={<Orders />} />
+            <Route path="/admin/products" element={<AddProducts />} />
+            <Route path="/admin/products/editItem" element={<EditItem />} />
+            <Route path="/admin/products/newItem" element={<NewItem />} />
+          </Routes>
+        </BrowserRouter>
+      </AuthProvider>
+    </GoogleOAuthProvider>
   );
 };
 

@@ -1,8 +1,21 @@
 import { useNavigate } from "react-router-dom";
 import "./admin.css";
+import Logout from "../../common/logout";
+import { useEffect } from "react";
 
 const Admin = () => {
   const navigate = useNavigate();
+
+  const token = localStorage.getItem("token");
+
+  console.log("Token: ");
+  console.log(JSON.parse(token));
+
+  useEffect(() => {
+    if (!token) {
+      navigate("/login");
+    }
+  }, [token, navigate]);
 
   return (
     <div className="adminPage">
@@ -32,6 +45,7 @@ const Admin = () => {
           Orders
         </button>
       </div>
+      <Logout />
     </div>
   );
 };

@@ -1,9 +1,20 @@
 const express = require("express");
 const router = express.Router();
 const db = require("../config/db.config");
+require("dotenv").config();
 
 router.get("/", (req, res) => {
   res.json({ message: "Admin routes" });
+});
+
+router.get("/clientID", (req, res) => {
+  const clientID = process.env.OAUTH_CLIENT_ID;
+
+  if (!clientID) {
+    return res.status(500).json({ error: "Client ID is not set" });
+  }
+
+  res.json({ clientId: clientID });
 });
 
 router.get("/requests", async (req, res) => {
