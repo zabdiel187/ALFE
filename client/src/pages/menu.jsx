@@ -24,36 +24,36 @@ const Menu = () => {
     getMenu();
   }, [backendPath]);
 
-  const handleChange = (itemId, quantity, price) => {
-    // setQuantity(quantity);
+  // const handleChange = (itemId, quantity, price) => {
+  //   // setQuantity(quantity);
 
-    if (quantity < 0 || quantity === null) {
-      // Set quantity to minimum value of 0
-      quantity = 0;
-    }
+  //   if (quantity < 0 || quantity === null) {
+  //     // Set quantity to minimum value of 0
+  //     quantity = 0;
+  //   }
 
-    if (!quantity) {
-      // If quantity is empty, set total price to 0
-      setMenu((prevMenu) =>
-        prevMenu.map((item) =>
-          item.item_ID === itemId ? { ...item, quantity, totalPrice: 0 } : item
-        )
-      );
-      return;
-    }
+  //   if (!quantity) {
+  //     // If quantity is empty, set total price to 0
+  //     setMenu((prevMenu) =>
+  //       prevMenu.map((item) =>
+  //         item.item_ID === itemId ? { ...item, quantity, totalPrice: 0 } : item
+  //       )
+  //     );
+  //     return;
+  //   }
 
-    const temp = Math.round((price * quantity + Number.EPSILON) * 100) / 100;
-    setMenu((prevMenu) =>
-      prevMenu.map((item) =>
-        item.item_ID === itemId ? { ...item, quantity, totalPrice: temp } : item
-      )
-    );
-  };
+  //   const temp = Math.round((price * quantity + Number.EPSILON) * 100) / 100;
+  //   setMenu((prevMenu) =>
+  //     prevMenu.map((item) =>
+  //       item.item_ID === itemId ? { ...item, quantity, totalPrice: temp } : item
+  //     )
+  //   );
+  // };
 
-  const updateOrder = useStore((state) => state.updateOrder);
-  const clearInput = (id) => {
-    document.getElementById("quantity" + id).value = 0;
-  };
+  // const updateOrder = useStore((state) => state.updateOrder);
+  // const clearInput = (id) => {
+  //   document.getElementById("quantity" + id).value = 0;
+  // };
 
   const handleSelect = (item) => {
     new Promise((resolve) => {
@@ -91,7 +91,7 @@ const Menu = () => {
                     alt={item.item_name}
                   />
                   <div className="user-inputs">
-                    <input
+                    {/* <input
                       type="number"
                       className="display-quantity"
                       id={"quantity" + item.item_ID}
@@ -102,8 +102,8 @@ const Menu = () => {
                           item.item_price
                         )
                       }
-                    />
-                    <div
+                    /> */}
+                    {/* <div
                       className="submit-order"
                       onClick={() => {
                         if (
@@ -147,7 +147,7 @@ const Menu = () => {
                       }}
                     >
                       Add to Cart
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               ))}

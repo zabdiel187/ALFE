@@ -72,20 +72,6 @@
   border-radius: 25px;
 }
 
-.submit-order {
-  color: white;
-  background-color: rgb(255, 72, 72);
-  border-radius: 25px;
-  width: 150px;
-  padding: 10px 0px;
-  cursor: pointer;
-  font-size: 15px;
-
-  position: absolute;
-  bottom: 10%;
-  left: 25%;
-}
-
 .loadingPage {
   width: 100vw;
   height: 90vh;

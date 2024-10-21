@@ -28,7 +28,7 @@ const Admin = () => {
             navigate("/admin/products");
           }}
         >
-          Add Item
+          Edit Menu
         </button>
         <button
           onClick={() => {
