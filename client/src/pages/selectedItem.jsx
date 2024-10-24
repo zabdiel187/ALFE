@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Navbar from "../common/navbar";
 import "./selectedItem.css";
 import { useAdminStore } from "../stores/adminStore";
@@ -18,6 +18,7 @@ const SelectedItem = () => {
   });
 
   const [isAlertHidden, setIsAlertHidden] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getItem = async () => {
@@ -84,6 +85,9 @@ const SelectedItem = () => {
       ) : (
         <div>
           <Navbar />
+          <div>
+            <button onClick={() => navigate("/menu")}>Go Back</button>
+          </div>
           {item.map((item) => (
             <div key={item.item_ID} className="itemPage">
               <div className="imgGallery" data-component="carousel">

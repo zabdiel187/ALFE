@@ -28,4 +28,17 @@ router.get("/:id/:itemName", (req, res) => {
   );
 });
 
+router.get("/otherItems/:id/R", (req, res) => {
+  const itemID = req.params.id;
+
+  db.query("SELECT * FROM menu WHERE item_ID <> ?", [itemID], (err, result) => {
+    if (err) throw err;
+    if (result.length === 0) {
+      res.status(204).send(null);
+    } else {
+      res.status(200).send(result);
+    }
+  });
+});
+
 module.exports = router;

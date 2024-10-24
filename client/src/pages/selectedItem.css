@@ -109,6 +109,20 @@
   right: 3vw;
 }
 
+.relatedCarousel {
+  display: flex;
+  flex-direction: row;
+  width: 100vw;
+}
+.otherItem {
+  margin: 5px;
+}
+
+.otherItemImg {
+  width: 100px;
+  height: 100px;
+}
+
 @keyframes alert {
   0% {
     transform: translate(0px, 0px);
