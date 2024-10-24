@@ -16,9 +16,19 @@ const Menu = () => {
 
   useEffect(() => {
     const getMenu = async () => {
-      const res = await fetch(backendPath + "/menu");
-      const getData = await res.json();
-      setMenu(getData.map((item) => ({ ...item, quantity: 0, totalPrice: 0 })));
+      try {
+        const res = await fetch(backendPath + "/menu");
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        const getData = await res.json();
+        setMenu(
+          getData.map((item) => ({ ...item, quantity: 0, totalPrice: 0 }))
+        );
+      } catch (error) {
+        console.error("Failed to fetch menu:", error);
+        alert("Failed to connect to the server");
+      }
     };
 
     getMenu();
